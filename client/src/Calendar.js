@@ -4,6 +4,8 @@ import "react-day-picker/lib/style.css";
 import "./Calendar.css";
 import { connect } from "react-redux";
 
+import Data from './Data.js'
+
 const MONTHS = [
   "Styczeń",
   "Luty",
@@ -117,6 +119,7 @@ class Calendar extends React.Component {
               </button>
             )}
         </div>
+        <Data />
       </div>
     );
   }
