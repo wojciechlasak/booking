@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
 import Calendar from './Calendar.js'
 
@@ -16,5 +17,10 @@ class App extends Component {
     );
   }
 }
+
+ReactDOM.render(
+  <App/>,
+  document.getElementById('root')
+);
 
 export default App;
