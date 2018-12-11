@@ -34,7 +34,6 @@ class Data extends React.Component {
       mail: "jacek@o2.pl",
       phone: "877622918"
     };
-    console.log("Wazzzup")
 
     fetch("/users", {
       method: "POST",
@@ -47,21 +46,49 @@ class Data extends React.Component {
         }
         return response.json();
       })
-      .then(function(data) {
-        this.setState(prevState => ({
-          users: [...prevState.arrayvar, data]
-        }));
+      .then(function() {
+       console.log("success");
       })
       .catch(err => {
         console.log("caught it!", err);
       });
-      this.componentDidMount();
+    this.componentDidMount();
+  }
+
+  updateKlient() {
+    var data = {
+      name: "Wojtek",
+      surname: "Lasak",
+      mail: "wojciechlasak@gmail.com",
+      phone: "877622918"
+    };
+
+    fetch("/users/1", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(function(response) {
+        if (response.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+        return response.json();
+      })
+      .then(function() {
+        console.log("success");
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    this.componentDidMount();
   }
 
   render() {
     return (
       <div>
         <button onClick={() => this.getNewKlient()}>Add data</button>
+        <div></div>
+        <button onClick={() => this.updateKlient()}>Update first data</button>
         <table>
           <thead>
             <tr>
@@ -73,16 +100,16 @@ class Data extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.users.map(function(user){
+            {this.state.users.map(function(user) {
               return (
-                <tr>
-                    <td>{user.ID}</td>
-                    <td>{user.imie}</td>
-                    <td>{user.Nazwisko}</td>
-                    <td>{user.email}</td>
-                    <td>{user.telefon}</td>
+                <tr key={user.ID}>
+                  <td>{user.ID}</td>
+                  <td>{user.imie}</td>
+                  <td>{user.Nazwisko}</td>
+                  <td>{user.email}</td>
+                  <td>{user.telefon}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
