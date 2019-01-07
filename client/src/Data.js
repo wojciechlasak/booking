@@ -10,7 +10,7 @@ class Data extends React.Component {
 
   componentDidMount() {
     let self = this;
-    fetch("/users", {
+    fetch("/clients", {
       method: "GET"
     })
       .then(function(response) {
@@ -21,10 +21,12 @@ class Data extends React.Component {
       })
       .then(function(data) {
         self.setState({ users: data });
+        console.log(self.state.users);
       })
       .catch(err => {
         console.log("caught it!", err);
       });
+
   }
 
   getNewKlient() {
@@ -35,7 +37,7 @@ class Data extends React.Component {
       phone: "877622918"
     };
 
-    fetch("/users", {
+    fetch("/clients", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
@@ -63,7 +65,7 @@ class Data extends React.Component {
       phone: "877622918"
     };
 
-    fetch("/users/1", {
+    fetch("/clients/1", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
@@ -102,12 +104,12 @@ class Data extends React.Component {
           <tbody>
             {this.state.users.map(function(user) {
               return (
-                <tr key={user.ID}>
-                  <td>{user.ID}</td>
-                  <td>{user.imie}</td>
-                  <td>{user.Nazwisko}</td>
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.surname}</td>
                   <td>{user.email}</td>
-                  <td>{user.telefon}</td>
+                  <td>{user.phone}</td>
                 </tr>
               );
             })}
