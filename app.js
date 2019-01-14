@@ -44,9 +44,12 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    console.log("test");
-      if (username === 'username') {
+  {
+    usernameField: 'email',
+    passwordField: 'password'
+},
+  function(email, password, done) {
+      if (email=== 'admin' && password === 'admin') {
           return done(null, { name: "test", id: '1234'});
       } else {
           return done(null, false, { message: 'Incorrect cred.' });
@@ -56,7 +59,7 @@ passport.use(new LocalStrategy(
 
 app.post('/login',
       passport.authenticate('local', { 
-          successRedirect: '/index.html',
+          successRedirect: '/admin',
           failureRedirect: '/login'
      })
     );
