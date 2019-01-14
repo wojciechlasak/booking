@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 var indexRouter = require('./routes/index');
 var clientRouter = require('./routes/clients');
 var roomRouter = require('./routes/rooms');
@@ -27,6 +30,36 @@ app.use('/clients', clientRouter);
 app.use('/rooms', roomRouter);
 app.use('/opinions', opinionRouter);
 app.use('/reservations', reservationRouter);
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  done(null, { id: id, nickname: "test"})
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    console.log("test");
+      if (username === 'username') {
+          return done(null, { name: "test", id: '1234'});
+      } else {
+          return done(null, false, { message: 'Incorrect cred.' });
+      }
+  })
+)
+
+app.post('/login',
+      passport.authenticate('local', { 
+          successRedirect: '/index.html',
+          failureRedirect: '/login'
+     })
+    );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,26 +1,20 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Calendar from './Calendar.js'
-
-import { Provider } from "react-redux";
-import store from './store/store.js';
+import Client from './Client.js'
+import Admin from './Admin.js'
 
 
-
-class App extends Component { 
+class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <Calendar />
-      </Provider>
+      <Router>
+        <div>
+          <Route exact path="/" component={Client} />
+          <Route path="/admin" component= {Admin} />
+        </div>
+      </Router>
     );
   }
 }
-
-ReactDOM.render(
-  <App/>,
-  document.getElementById('root')
-);
-
 export default App;

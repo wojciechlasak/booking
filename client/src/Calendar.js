@@ -2,9 +2,7 @@ import React from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./Calendar.css";
-import { connect } from "react-redux";
 
-import Data from './Data.js'
 
 const MONTHS = [
   "Styczeń",
@@ -119,17 +117,11 @@ class Calendar extends React.Component {
               </button>
             )}
         </div>
-        <Data />
       </div>
     );
   }
 }
 
 
-const mapStateToProps = state => ({
-  item: state.item
-});
+export default Calendar;
 
-export default connect(
-  mapStateToProps
-)(Calendar);
