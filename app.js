@@ -45,11 +45,11 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(
   {
-    usernameField: 'email',
+    usernameField: "nick",
     passwordField: 'password'
 },
-  function(email, password, done) {
-      if (email=== 'admin' && password === 'admin') {
+  function(nick, password, done) {
+      if (nick=== 'admin' && password === 'admin') {
           return done(null, { name: "test", id: '1234'});
       } else {
           return done(null, false, { message: 'Incorrect cred.' });
