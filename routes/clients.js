@@ -21,7 +21,9 @@ router.get('/:clientId', function(req, res) {
 
 /*POST*/
 router.post('/', function(req, res) {
-  con.query(`INSERT INTO client (id, name, surname, email, phone) VALUES ('NULL', '${req.body.name}', '${req.body.surname}', '${req.body.mail}', '${req.body.phone}')`, function (error, results, fields) {
+  con.query(`INSERT INTO client (name, surname, email, phone) 
+  VALUES ('${req.body.name}', '${req.body.surname}', '${req.body.mail}', '${req.body.phone}')
+  ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)`, function (error, results, fields) {
     if (error) throw error;
    res.send(JSON.stringify(results));
  });
