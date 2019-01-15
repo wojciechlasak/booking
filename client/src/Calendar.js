@@ -3,6 +3,8 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./Calendar.css";
 
+import PropTypes from 'prop-types';
+
 
 const MONTHS = [
   "Styczeń",
@@ -29,6 +31,7 @@ const WEEKDAYS_LONG = [
 ];
 const WEEKDAYS_SHORT = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "N"];
 
+
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
@@ -36,6 +39,9 @@ class Calendar extends React.Component {
     this.handleDayMouseEnter = this.handleDayMouseEnter.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
     this.state = this.getInitialState();
+    this.protoTypes = {
+      callback: PropTypes.func,
+    }
   }
   getInitialState() {
     return {
@@ -81,19 +87,23 @@ class Calendar extends React.Component {
   handleResetClick() {
     this.setState(this.getInitialState());
   }
+  handleSendClick() {
+   this.props.callback(this.state.from.toISOString(), this.state.to.toISOString())
+  }
+
   render() {
     const { from, to, enteredTo } = this.state;
     const modifiers = { start: from, end: enteredTo };
     const selectedDays = [from, { from, to: enteredTo }];
-    const disabledDays = {before: new Date()}
+    const disabledDays = { before: new Date() }
     return (
-      <div className="container">
+      <div className="calendar-container">
         <DayPicker
           className={("Range", "MyStyle")}
           numberOfMonths={2}
           fromMonth={from}
           selectedDays={selectedDays}
-          modifiers={ modifiers}
+          modifiers={modifiers}
           onDayClick={this.handleDayClick}
           onDayMouseEnter={this.handleDayMouseEnter}
           locale="pl"
@@ -101,7 +111,7 @@ class Calendar extends React.Component {
           weekdaysLong={WEEKDAYS_LONG}
           weekdaysShort={WEEKDAYS_SHORT}
           //showOutsideDays
-          disabledDays={disabledDays }
+          disabledDays={disabledDays}
         ></DayPicker>
         <div className="DayPicker-text">
           {!from && !to && "Wybierz pierwszy dzień pobytu."}
@@ -112,15 +122,22 @@ class Calendar extends React.Component {
                 ${to.toLocaleDateString()}`}{" "}
           {from &&
             to && (
-              <button className="link" onClick={this.handleResetClick}>
-                Resetuj
+              <>
+                <button className="link" onClick={this.handleResetClick}>
+                  Resetuj
               </button>
+                <button className="link" onClick={this.handleSendClick.bind(this)}>
+                  Wyślij
+            </button>
+              </>
             )}
         </div>
       </div>
     );
   }
+  
 }
+
 
 
 export default Calendar;
