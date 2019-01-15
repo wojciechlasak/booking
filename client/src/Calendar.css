@@ -9,13 +9,12 @@
 
 
 
-.container{
+.calendar-container{
   width:100%;
   display: flex;
   justify-content: center;
   text-align: center;
   flex-direction: column;
- 
 }
 
 .MyStyle{
@@ -29,7 +28,7 @@
 }
 
 .MyStyle .DayPicker-Weekday{
-  padding:0.5rem 1.3rem;
+  padding:1rem 1.3rem;
   color:#000;
   font-weight: bold;
   border-right: dotted 2px #949494;
@@ -54,13 +53,13 @@
 }
 
 .MyStyle .DayPicker-Day{
-  padding:1rem 1.3rem;
+  padding:0.8rem 1rem;
   border-radius: 0;
   border: dotted 1px #949494;
 }
 
 .DayPicker-text{
-  font-size:1.1rem;
+  font-size:1.2rem;
 }
 
 .link{
@@ -71,7 +70,6 @@
   background-color: #51a0fa;
   cursor: pointer;
   transition: 0.3s;
-  font-size: 1.1rem;
   border-radius: 5px;
   padding:0.5rem;
 }
