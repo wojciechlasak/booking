@@ -53,10 +53,11 @@ class ClientForm extends React.Component {
                     console.log("caught it!", err);
                 });
         }
-        var code = generateCode();
-        while (!checkCode(code).then(check => check)) {
+        var code;
+        do{
             code = generateCode();
-        }
+        }while (!checkCode(code).then(check => check)) 
+            
         return code;
     }
 
