@@ -1,7 +1,7 @@
 import React from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import "./Calendar.css";
+import "./css/Calendar.css";
 
 import PropTypes from 'prop-types';
 
@@ -99,7 +99,7 @@ class Calendar extends React.Component {
     return (
       <div className="calendar-container">
         <DayPicker
-          className={("Range", "MyStyle")}
+          className={("MyStyle")}
           numberOfMonths={2}
           fromMonth={from}
           selectedDays={selectedDays}

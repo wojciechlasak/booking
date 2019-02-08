@@ -3,6 +3,8 @@ import React from "react";
 import Calendar from './Calendar.js'
 import ClientForm from './ClientForm.js'
 
+import "./css/Client.css";
+
 class Client extends React.Component {
     constructor(){
         super();
@@ -23,7 +25,9 @@ class Client extends React.Component {
     render() {
         return (
             <div>
-                <Calendar callback={this.getData.bind(this)}/>
+                <div id="top">
+                    <Calendar callback={this.getData.bind(this)}/>
+                </div>
                 {!this.state.hide?<ClientForm dateFrom={this.state.from} dateTo={this.state.to}/>:<h1>Wybierz datę</h1>}
             </div>
         );

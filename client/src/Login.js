@@ -1,7 +1,7 @@
 import React from "react";
 import { Button,Form, FormGroup, Input} from "reactstrap";
 
-import "./Login.css";
+import "./css/Login.css";
 
 
 class Login extends React.Component {
@@ -30,7 +30,6 @@ class Login extends React.Component {
                         Login
                      </Button>
                      </Form>
-                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
             </div>
         );
     }

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Client from './Client.js'
-import Login from './Login.js'
-import Admin from './Admin.js'
+import Client from "./Client.js";
+import Login from "./Login.js";
+import Admin from "./Admin.js";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   render() {
@@ -12,9 +13,8 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={Client} />
-          <Route path="/login" component= {Login} />
-          <Route path="/admin" component= {Admin} />
-         
+          <Route path="/login" component={Login} />
+          <Route path="/admin" component={Admin} />
         </div>
       </Router>
     );
