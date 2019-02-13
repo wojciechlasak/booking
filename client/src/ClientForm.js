@@ -138,7 +138,7 @@ class ClientForm extends React.Component {
 
             <div>
                 <Form method="post" className="Login" onSubmit={this.handleSubmit}>
-                    <FormGroup bsSize="large">
+                    <FormGroup>
                         <Input
                             autoFocus
                             type="text"
@@ -148,7 +148,7 @@ class ClientForm extends React.Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup bsSize="large">
+                    <FormGroup >
                         <Input
                             type="text"
                             placeholder="Nazwisko"
@@ -157,7 +157,7 @@ class ClientForm extends React.Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup bsSize="large">
+                    <FormGroup>
                         <Input
                             type="email"
                             placeholder="Email"
@@ -166,7 +166,7 @@ class ClientForm extends React.Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup bsSize="large">
+                    <FormGroup>
                         <Input
                             type="text"
                             placeholder="Telefon"
