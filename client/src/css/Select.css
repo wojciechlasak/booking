@@ -1,0 +1,25 @@
+.svg-rect {
+  fill: #fff;
+}
+
+.svg-rect-outer{
+    fill:#000;
+    transition: 0.3s;
+}
+
+.svg-text {
+  font-size: 29px;
+  font-family: Proxima;
+}
+.svg-text-small {
+    font-size: 19px;
+  }
+
+#room5{
+    cursor: pointer;
+}
+
+#room5:hover .svg-rect-outer{
+  fill: red;
+}
+

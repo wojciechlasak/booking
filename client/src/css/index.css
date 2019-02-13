@@ -8,6 +8,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: Proxima-light;
+  src: url(../fonts/ProximaNova-Light.otf);
+}
+
+@font-face {
+  font-family: Proxima;
+  src: url(../fonts/ProximaNova-Regular.otf);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

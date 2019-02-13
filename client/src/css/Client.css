@@ -8,3 +8,7 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+#client{
+    background: url("../img/dark-honeycomb.png"); /* Background pattern from Toptal Subtle Patterns */
+}
