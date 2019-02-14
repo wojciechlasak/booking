@@ -7,8 +7,7 @@ var logger = require("morgan");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
-const JWTstrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
+const exjwt = require("express-jwt");
 
 var indexRouter = require("./routes/index");
 var clientRouter = require("./routes/clients");
@@ -28,18 +27,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
-//app.use(passport.authenticate('jwt', {session: false }));
+//express-jwt
+const jwtMW = exjwt({
+  secret: "top_secret"
+});
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-type,Authorization");
+  next();
+});
+
 app.use("/", indexRouter);
-app.use("/clients",clientRouter);
+app.use("/clients", jwtMW, clientRouter);
 app.use("/rooms", roomRouter);
 app.use("/opinions", opinionRouter);
 app.use("/reservations", reservationRouter);
 
-
 //passport
 app.use(passport.initialize());
-//app.use(passport.session());
-
 passport.use(
   new LocalStrategy(
     {
@@ -56,49 +61,26 @@ passport.use(
   )
 );
 
-/*passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  done(null, { id: id, name: "admin" });
-});
-
-app.post('/*',
-      passport.authenticate('local', { 
-          successRedirect: '/#/admin',
-          failureRedirect: '/#/login'
-     })
-    );*/
-
-    app.post("/login", async (req, res, next) => {
-      passport.authenticate("local", async (err, user, info) => {  
-        if(err || !user){
-          const error = new Error('An Error occured')
-          return next(error)
-        }
-        req.login(user, { session : false }, async (error) => {
-          if( error ) return next(error)
-          const body = { _id : user.id, name : user.name };
-          const token = jwt.sign({ user : body },'top_secret');
-          return res.json("ok");
-        });     
-    })(req, res, next);
+app.post("/login", async (req, res, next) => {
+  passport.authenticate("local", async (err, user, info) => {
+    if (err || !user) {
+      const error = new Error("An Error occured");
+      return next(error);
+    }
+    req.login(user, { session: false }, async error => {
+      if (error) return next(error);
+      const body = { _id: user.id, name: user.name };
+      const token = jwt.sign({ nick: body.name }, "top_secret", {
+        expiresIn: 600
+      });
+      return res.json({
+        sucess: true,
+        err: null,
+        token
+      });
     });
-
-
-
-passport.use(new JWTstrategy({
-  secretOrKey : 'top_secret',
-  //we expect the user to send the token as a query paramater with the name 'secret_token'
-  jwtFromRequest : ExtractJWT.fromUrlQueryParameter('secret_token')
-}, async (token, done) => {
-  try {
-    return done(null, token.user);
-  } catch (error) {
-    done(error);
-  }
-}));
+  })(req, res, next);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
