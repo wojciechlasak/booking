@@ -5,7 +5,7 @@ var router = express();
 /* GET users listing. */
 router.get("/", function(req, res) {
   con.query("SELECT * FROM client", function(error, results, fields) {
-    if (error) throw error;
+    if (error)  res.send(error);
     res.send(JSON.stringify(results));
   });
 });
