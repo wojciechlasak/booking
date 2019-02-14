@@ -1,5 +1,7 @@
 import React from "react";
 
+import AuthHelperMethods from './components/AuthHelperMethods';
+
 class Data extends React.Component {
   constructor(props) {
     super(props);
@@ -8,20 +10,14 @@ class Data extends React.Component {
     };
   }
 
+  Auth = new AuthHelperMethods();
+
   componentDidMount() {
-    let self = this;
-    fetch("/clients", {
+    this.Auth.fetch("/clients", {
       method: "GET"
     })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
-      .then(function(data) {
-        self.setState({ users: data });
-        console.log(self.state.users);
+      .then(data => {
+        this.setState({ users: data });
       })
       .catch(err => {
         console.log("caught it!", err);
@@ -31,23 +27,16 @@ class Data extends React.Component {
 
   getNewKlient() {
     var data = {
-      name: "Jan",
+      name: "Jan2",
       surname: "Nowak",
       mail: "jacek@o2.pl",
       phone: "877622918"
     };
 
-    fetch("/clients", {
+    this.Auth.fetch("/clients", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
       .then(function() {
        console.log("success");
       })
@@ -65,17 +54,10 @@ class Data extends React.Component {
       phone: "877622918"
     };
 
-    fetch("/clients/1", {
+    this.Auth.fetch("/clients/1", {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
       .then(function() {
         console.log("success");
       })

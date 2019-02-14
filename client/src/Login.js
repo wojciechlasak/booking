@@ -1,9 +1,8 @@
 import React from "react";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 
-import PropTypes from "prop-types";
-
 import "./css/Login.css";
+import AuthHelperMethods from './components/AuthHelperMethods';
 
 class Login extends React.Component {
   constructor() {
@@ -12,50 +11,39 @@ class Login extends React.Component {
       nick: "",
       password: ""
     };
-    this.protoTypes = {
-      callback: PropTypes.func
-    };
   }
+
+  Auth = new AuthHelperMethods();
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  handleFormSubmit = (e) => {
     e.preventDefault();
+    /* Here is where all the login logic will go. Upon clicking the login button, we would like to utilize a login method that will send our entered credentials over to the server for verification. Once verified, it should store your token and send you to the protected route. */
+    this.Auth.login(this.state.nick, this.state.password)
+        .then(res => {
+            if (res === false) {
+                return alert("Sorry those credentials don't exist!");
+            }
+            this.props.history.replace('/admin');
+        })
+        .catch(err => {
+            alert(err);
+        })
+}
 
-    const data = {
-      nick: this.state.nick,
-      password: this.state.password
-    };
-
-    fetch(`/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
-      .then(response => {
-        if (response === "ok") {
-          this.props.callback(true);
-        } else {
-          this.props.callback(false);
-        }
-      })
-      .catch(err => {
-        console.log("caught it!", err);
-      });
-  };
+componentWillMount() {
+    /* Here is a great place to redirect someone who is already logged in to the protected route */
+    if (this.Auth.loggedIn())
+        this.props.history.replace('/admin');
+}
 
   render() {
     return (
       <div className="Login">
-        <Form onSubmit={this.onSubmit}>
+        <Form onSubmit={this.handleFormSubmit}>
           <FormGroup bsSize="large">
             <Input
               autoFocus

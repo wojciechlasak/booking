@@ -2,32 +2,33 @@ import React from "react";
 
 import Calendar from "./Calendar.js";
 import Data from "./Data.js";
-import Login from "./Login.js";
+
+/* Once the 'Authservice' and 'withAuth' componenets are created, import them into App.js */
+import AuthHelperMethods from "./components/AuthHelperMethods";
+
+//Our higher order component
+import withAuth from "./components/withAuth";
 
 class Admin extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-        isLoggedIn: false
-    };
-  }
+  /* Create a new instance of the 'AuthHelperMethods' compoenent*/
+  Auth = new AuthHelperMethods();
 
-  isAuth(param){
-      this.setState({
-          isLoggedIn: param
-      })
-  }
+  _handleLogout = () => {
+    this.Auth.logout();
+    this.props.history.replace("/");
+  };
 
-  isLogin() {
-    if (this.state.isLoggedIn) {
-    return (<div><Calendar /> 
-    <Data /></div>);
-    }
-    return (<Login callback={this.isAuth.bind(this)}/>);
-  }
-
+  //Render the protected component
   render() {
-    return <div>{this.isLogin()}</div>;
+    return (
+      <div>
+        <Calendar />
+        <button onClick={this._handleLogout}>LOGOUT</button>
+        <Data />
+      </div>
+    );
   }
 }
-export default Admin;
+
+//In order for this component to be protected, we must wrap it with what we call a 'Higher Order Component' or HOC.
+export default withAuth(Admin);
