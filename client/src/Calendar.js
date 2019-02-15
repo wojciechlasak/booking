@@ -112,7 +112,7 @@ class Calendar extends React.Component {
           weekdaysShort={WEEKDAYS_SHORT}
           //showOutsideDays
           disabledDays={disabledDays}
-        ></DayPicker>
+        />
         <div className="DayPicker-text">
           {!from && !to && "Wybierz pierwszy dzień pobytu."}
           {from && !to && "Wybierz ostatni dzień pobytu."}
