@@ -106,3 +106,10 @@
   color: #000;
   font-weight: 400;
 }
+
+/*admin calendaer*/
+
+.admin .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside){
+  background-color: #deaf59;
+  color: #fff;
+}
