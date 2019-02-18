@@ -15,8 +15,11 @@ class Admin extends React.Component {
   constructor() {
     super();
     this.state = {
+      from : null,
+      to: null,
       component: null
     };
+    
   }
 
   /* Create a new instance of the 'AuthHelperMethods' compoenent*/
@@ -32,6 +35,15 @@ class Admin extends React.Component {
       component: e.target.value
     });
   };
+
+  getDate(param1,param2) {
+    this.setState({
+      from : param1,
+      to: param2,
+      hide: false
+    })
+  }
+
   componentRender() {
     switch (this.state.component) {
       case "clients":
@@ -41,8 +53,8 @@ class Admin extends React.Component {
       case "addReservations":
         return (
           <div>
-            <Calendar />
-            <ClientForm />
+            <Calendar callback={this.getDate.bind(this)}/>
+            <ClientForm  dateFrom={this.state.from} dateTo={this.state.to}/>
           </div>
         );
       default:
