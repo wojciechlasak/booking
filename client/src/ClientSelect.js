@@ -2,13 +2,15 @@ import React from "react";
 
 import "./css/Select.css";
 
-class Select extends React.Component {
+
+
+class ClientSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maxPeople: 0,
+      peopleMax: 0,
       rooms: null,
-      amountPeople: 0
+      peopleAmount: 0
     };
   }
 
@@ -33,7 +35,7 @@ class Select extends React.Component {
         })
         .then(data => {
           this.setState({
-            maxPeople: data[0].max
+            peopleMax: data[0].max
           });
         })
         .catch(err => {
@@ -65,10 +67,10 @@ class Select extends React.Component {
     }
   }
 
-  generateOption() {
+  generatePeople() {
     var arr = [];
 
-    for (let i = 1; i <= this.state.maxPeople; i++) {
+    for (let i = 1; i <= this.state.peopleMax; i++) {
       arr.push(
         <option key={i} value={i}>
           {i}
@@ -79,31 +81,31 @@ class Select extends React.Component {
     return arr;
   }
 
-  getRoom(e) {
+  handlePeopleChange(e) {
     this.setState({
-      amountPeople: e
+      peopleAmount: e
     });
   }
 
-  szukaj(rooms) {
+  roomConfig(rooms) {
     var arr = [];
     for (let room in rooms) {
       let temp = 0;
       for (let i = 0; i <= room; i++) {
         temp += rooms[i];
       }
-      if (temp >= this.state.amountPeople) {
+      if (temp >= this.state.peopleAmount) {
         arr.push(Number(room) + 1);
       }
     }
     return arr;
   }
 
-  generateOption2() {
+  generateRooms() {
     var arr = [];
 
-    if (this.state.rooms !== null && this.state.amountPeople !== 0) {
-      let rooms = this.szukaj(
+    if (this.state.rooms !== null && this.state.peopleAmount !== 0) {
+      let rooms = this.roomConfig(
         this.state.rooms
           .map(e => e.peopleMax)
           .sort()
@@ -124,21 +126,28 @@ class Select extends React.Component {
 
     return arr;
   }
+  handleRoomsChange(e) {
+      this.props.callbackSelect(this.state.peopleAmount, this.state.rooms, e);
+    
+  }
 
   render() {
     return (
       <div>
         <select
-          id="how-people"
           onChange={e => {
-            this.getRoom(e.target.value);
+            this.handlePeopleChange(e.target.value);
           }}
         >
-          {this.generateOption()}
+          <option value="null">Wybierz ilość osób</option>
+          {this.generatePeople()}
         </select>
-        <select id="how-room">{this.generateOption2()}</select>
+        <select onChange={e => this.handleRoomsChange(e.target.value)}>
+          <option value="null">Wybierz ilość pokoi</option>
+          {this.generateRooms()}
+        </select>
       </div>
     );
   }
 }
-export default Select;
+export default ClientSelect;
