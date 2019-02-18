@@ -2,23 +2,39 @@ import React from "react";
 
 import "./css/RoomMap.css";
 
-class RoomMap extends React.Component {
 
-  
-  handleClickSVG() {
-    alert("klikneli mnie!!!");
+class RoomMap extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      roomsAmount:this.props.roomsAmount,
+      roomsAvailable :this.props.roomsAvailable
+    };
   }
 
-  
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.roomsAmount !== prevProps.roomsAmount ||
+      this.props.roomsAvailable !== prevProps.roomsAvailable
+    ) {
+      this.setState({
+        roomsAmount:this.props.roomsAmount,
+      roomsAvailable :this.props.roomsAvailable
+      });
+    }
+  }
+
+
+  handleClickSVG() {
+    this.props.callbackMap([4]);
+  }
+
   render() {
     return (
-     <div id="svg-map"> 
-       <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 237.84 193.04"
-        >
+      <div id="svg-map">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 237.84 193.04">
           <g id="room5" onClick={() => this.handleClickSVG()}>
-            <rect className="svg-rect-outer"width="237" height="192" />
+            <rect className="svg-rect-outer" width="237" height="192" />
             <rect className="svg-rect" x="7" y="6" width="224" height="179" />
             <text
               className="svg-text"
@@ -31,7 +47,7 @@ class RoomMap extends React.Component {
             </text>
           </g>
         </svg>
-     </div>
+      </div>
     );
   }
 }
