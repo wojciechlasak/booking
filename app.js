@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
-app.use("/clients", jwtMW, clientRouter);
+app.use("/clients", clientRouter);
 app.use("/rooms", roomRouter);
 app.use("/opinions", opinionRouter);
 app.use("/reservations", reservationRouter);
