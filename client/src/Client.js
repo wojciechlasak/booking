@@ -13,7 +13,7 @@ class Client extends React.Component {
     this.state = {
       from: null,
       to: null,
-      hideMap: true,
+      hideMap: false, //zmienic na false
       hideForm: true,
       peopleAmount: null,
       roomsAvailable: null,
