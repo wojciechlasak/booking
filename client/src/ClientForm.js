@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, Input } from "reactstrap";
 
 import "./css/Login.css";
 
@@ -45,7 +45,7 @@ class ClientForm extends React.Component {
     }
     function generateCode() {
       let code = "";
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 6; i++) {
         code += String.fromCharCode(generateRandomNumber());
       }
       return code;

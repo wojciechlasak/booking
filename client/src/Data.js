@@ -25,27 +25,6 @@ class Data extends React.Component {
 
   }
 
-  getNewKlient() {
-    var data = {
-      name: "Jan2",
-      surname: "Nowak",
-      mail: "jacek@o2.pl",
-      phone: "877622918"
-    };
-
-    this.Auth.fetch("/clients", {
-      method: "POST",
-      body: JSON.stringify(data)
-    })
-      .then(function() {
-       console.log("success");
-      })
-      .catch(err => {
-        console.log("caught it!", err);
-      });
-    this.componentDidMount();
-  }
-
   updateKlient() {
     var data = {
       name: "Wojtek",
@@ -70,8 +49,6 @@ class Data extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.getNewKlient()}>Add data</button>
-        <div></div>
         <button onClick={() => this.updateKlient()}>Update first data</button>
         <table>
           <thead>
