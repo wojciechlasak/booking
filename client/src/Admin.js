@@ -4,6 +4,8 @@ import Calendar from "./Calendar.js";
 import CalendarAdmin from "./CalendarAdmin.js";
 import ClientForm from "./ClientForm.js";
 import Data from "./Data.js";
+import Rooms from "./Rooms.js";
+
 
 /* Once the 'Authservice' and 'withAuth' componenets are created, import them into App.js */
 import AuthHelperMethods from "./components/AuthHelperMethods";
@@ -57,6 +59,8 @@ class Admin extends React.Component {
             <ClientForm  dateFrom={this.state.from} dateTo={this.state.to}/>
           </div>
         );
+      case "rooms":
+         return  <Rooms />
       default:
         return null;
     }
