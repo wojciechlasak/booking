@@ -28,7 +28,7 @@ router.get("/:roomId", function(req, res) {
 router.get("/free/max", function(req, res) {
   con.query(
     `SELECT sum(peopleMax) AS max FROM room WHERE room_nr NOT IN (SELECT room_nr FROM reservation 
-      WHERE !('${req.query.dateFrom}'<=dateFrom OR '${req.query.dateTo}'>=dateTo))`,
+      WHERE !('${req.query.dateTo}'<=dateFrom OR '${req.query.dateFrom}'>=dateTo))`,
     function(error, results, fields) {
       if (error) throw error;
       res.send(JSON.stringify(results));
@@ -39,7 +39,7 @@ router.get("/free/max", function(req, res) {
 router.get("/free/info", function(req, res) {
   con.query(
     `SELECT * FROM room WHERE room_nr NOT IN (SELECT room_nr FROM reservation 
-      WHERE !('${req.query.dateFrom}'<=dateFrom OR '${req.query.dateTo}'>=dateTo))`,
+      WHERE !('${req.query.dateTo}'<=dateFrom OR '${req.query.dateFrom}'>=dateTo))`,
     function(error, results, fields) {
       if (error) throw error;
       res.send(JSON.stringify(results));
