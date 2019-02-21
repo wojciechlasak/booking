@@ -1,7 +1,27 @@
+
+
 #svg-map {
   max-height: 800px;
   max-width: 500px;
-  margin:25 0;
+  padding:25px 0;
+}
+
+.room-box{
+  padding:20px;
+  background-color:#313131;
+  color:#fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.room-info{
+  padding:20px;
+}
+
+.room-info > div{
+  display: inline;
 }
 
 .cls-1,
@@ -70,7 +90,31 @@
   clip-path: url(#clip-path-14);
 }
 
-g #room1-rect:hover{
-    fill:black;
-    stroke: black
+.room-hover *{
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.room-hover rect:hover, #room4-rect:hover polyline{
+  fill:#e6e6e6;
+}
+
+.disabled{
+  opacity:0.8;
+}
+
+.disabled path{
+  fill:#a3a3a3
+}
+
+.disabled *{
+  cursor:default;
+}
+
+.disabled:hover rect, .disabled #room4-rect:hover polyline{
+  fill:#fff;
+}
+
+.selected rect, .selected polyline{
+  fill:#ccc2b8
 }
