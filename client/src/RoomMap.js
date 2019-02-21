@@ -1,7 +1,6 @@
 import React from "react";
 
 import "./css/RoomMap.css";
-import x from './img/icon-x.png'
 
 class RoomMap extends React.Component {
   constructor(props) {
@@ -87,7 +86,7 @@ class RoomMap extends React.Component {
     for(let room in this.state.roomsSelected){
       roomRemove.push(
         <div>
-          {"Pokój nr "+this.state.roomsSelected[room]} <img src={x} alt="x" onClick={() => this.handleRemoveRoom(this.state.roomsSelected[room])}/>
+          {"Pokój nr "+this.state.roomsSelected[room]} <img src={require('./img/icon-x.png')} alt="x" onClick={() => this.handleRemoveRoom(this.state.roomsSelected[room])}/>
         </div>
       )
     }
@@ -96,7 +95,7 @@ class RoomMap extends React.Component {
         <div className=" room-box col-lg-5">
           <div className="room-photo">
             <img
-              src={room.photoUrl}
+              src={require("./img/"+room.photoUrl)}
               alt="pokój"
               className="img-fluid"
             />
