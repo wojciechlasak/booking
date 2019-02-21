@@ -13,7 +13,7 @@ class Client extends React.Component {
     this.state = {
       from: null,
       to: null,
-      hideMap: false, //zmienic na false
+      hideMap: true, 
       hideForm: true,
       peopleAmount: null,
       roomsAvailable: null,
@@ -60,13 +60,13 @@ class Client extends React.Component {
           />
         </div>
         {!this.state.hideMap ? (
-          <div id="map">
+          <div className="container">
             <RoomMap
               roomsAmount={this.state.roomsAmount}
               roomsAvailable={this.state.roomsAvailable}
               callbackMap={this.getMap}
             />
-          </div>
+         </div>
         ) : null}
         {!this.state.hideForm ? (
           <ClientForm
