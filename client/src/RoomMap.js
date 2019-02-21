@@ -10,7 +10,8 @@ class RoomMap extends React.Component {
       roomsAvailable: this.props.roomsAvailable,
       roomsAvailableNr: this.props.roomsAvailable.map(e => e.room_nr),
       roomSelected: null,
-      roomsSelected: []
+      roomsSelected: [],
+      opinions: []
     };
   }
 
@@ -39,7 +40,8 @@ class RoomMap extends React.Component {
       } else {
         this.setState({
           roomSelected: value
-        });
+          
+        },()=>{this.getOpinions(this.state.roomsAvailable.find(e => e.room_nr===this.state.roomSelected).room_nr)});
       }
     } else {
       alert("nie mozna");
@@ -78,15 +80,44 @@ class RoomMap extends React.Component {
     
   }
 
+  getOpinions(nr){
+    fetch("/opinions/room/"+nr, {
+      method: "GET"
+    })
+      .then(function(response) {
+        if (response.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+        return response.json();
+      })
+      .then(data => {
+        this.setState({
+          opinions:data
+        })
+      })
+      .catch(err => {
+        console.log("caught it!", err);
+      });
+  }
+
+  renderOpinion(nr){
+    let arr = []
+    const opinions = this.state.opinions
+    for(let opinion in opinions){
+      arr.push(<div><h1>{opinions[opinion].stars+"/5"}</h1><p>{opinions[opinion].content}</p></div>)
+    }
+    return arr
+  }
+
   renderRoom() {
     let room = this.state.roomsAvailable.find(e => e.room_nr===this.state.roomSelected);
-    console.log(this.state.roomsSelected.length<this.state.roomsAmount)
-
+    const roomsSelected = this.state.roomsSelected;
+    
     let roomRemove= [];
-    for(let room in this.state.roomsSelected){
+    for(let room in roomsSelected){
       roomRemove.push(
         <div>
-          {"Pokój nr "+this.state.roomsSelected[room]} <img src={require('./img/icon-x.png')} alt="x" onClick={() => this.handleRemoveRoom(this.state.roomsSelected[room])}/>
+          {"Pokój nr "+roomsSelected[room]} <img src={require('./img/icon-x.png')} alt="x" onClick={() => this.handleRemoveRoom(roomsSelected[room])}/>
         </div>
       )
     }
@@ -113,12 +144,15 @@ class RoomMap extends React.Component {
             <br />
             Maksymalna ilość osób:{" " + room.peopleMax}
           </div>
+          <div className='opinions'>
+            {this.renderOpinion(room.room_nr)}
+          </div>
           <div className="">
             {roomRemove}
           </div>
 
-          <button  disabled={this.state.roomsSelected.length>=this.state.roomsAmount} onClick={() => this.handleAddRoom()}>Dodaj pokoj</button>
-          <button disabled={this.state.roomsSelected.length<this.state.roomsAmount} onClick={() => this.handleNextStage()}>Przejdź dalej</button>
+          <button  disabled={roomsSelected.length>=this.state.roomsAmount} onClick={() => this.handleAddRoom()}>Dodaj pokoj</button>
+          <button disabled={roomsSelected.length<this.state.roomsAmount} onClick={() => this.handleNextStage()}>Przejdź dalej</button>
           
         </div>
       );
@@ -129,7 +163,7 @@ class RoomMap extends React.Component {
   render() {
     return (
       <div className=" row justify-content-md-center">
-        <div id="svg-map" className="col-lg-5 mr-3">
+        <div id="svg-map" className="col-lg-5 mr-5">
           <svg
             id="map"
             data-name="map"
