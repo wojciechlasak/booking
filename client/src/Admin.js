@@ -3,11 +3,10 @@ import React from "react";
 import Calendar from "./Calendar.js";
 import CalendarAdmin from "./CalendarAdmin.js";
 import ClientForm from "./ClientForm.js";
-import Data from "./Data.js";
+import Clients from "./Clients.js";
+import Opinions from "./Opinions.js";
 import Rooms from "./Rooms.js";
 
-
-/* Once the 'Authservice' and 'withAuth' componenets are created, import them into App.js */
 import AuthHelperMethods from "./components/AuthHelperMethods";
 
 //Our higher order component
@@ -24,7 +23,6 @@ class Admin extends React.Component {
     
   }
 
-  /* Create a new instance of the 'AuthHelperMethods' compoenent*/
   Auth = new AuthHelperMethods();
 
   _handleLogout = () => {
@@ -38,7 +36,7 @@ class Admin extends React.Component {
     });
   };
 
-  getDate(param1,param2) {
+  getDate = (param1,param2) => {
     this.setState({
       from : param1,
       to: param2,
@@ -49,13 +47,15 @@ class Admin extends React.Component {
   componentRender() {
     switch (this.state.component) {
       case "clients":
-        return <Data />;
+        return <Clients />;
       case "reservations":
         return <CalendarAdmin />;
+      case "opinions":
+        return <Opinions />;
       case "addReservations":
         return (
           <div>
-            <Calendar callback={this.getDate.bind(this)}/>
+            <Calendar callback={this.getDate}/>
             <ClientForm  dateFrom={this.state.from} dateTo={this.state.to}/>
           </div>
         );
