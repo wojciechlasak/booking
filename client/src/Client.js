@@ -13,40 +13,38 @@ class Client extends React.Component {
     this.state = {
       from: null,
       to: null,
-      hideMap: true, 
+      hideMap: true,
       hideForm: true,
       peopleAmount: null,
       roomsAvailable: null,
       roomsAmount: null,
       roomsChose: null
     };
-
-    this.getDate = this.getDate.bind(this);
-    this.getSelect = this.getSelect.bind(this);
-    this.getMap = this.getMap.bind(this);
   }
-  getDate(param1, param2) {
+  getDate = (param1, param2,hide) => {
     this.setState({
       from: param1,
-      to: param2
+      to: param2,
+      hideMap:hide,
+      hideForm:hide
     });
-  }
+  };
 
-  getSelect(param1, param2, param3) {
+  getSelect = (param1, param2, param3, hide) => {
     this.setState({
       peopleAmount: param1,
       roomsAvailable: param2,
       roomsAmount: param3,
-      hideMap: false
+      hideMap: hide,
+      hideForm: true
     });
-  }
-  getMap(param) {
-    this.setState({
-      roomsChose: param,
-      hideForm: false
-    });
-    
-  }
+  };
+  getMap = (param,hide) => {
+      this.setState({
+        roomsChose: param,
+        hideForm: hide
+      });
+  };
 
   render() {
     return (
@@ -66,7 +64,7 @@ class Client extends React.Component {
               roomsAvailable={this.state.roomsAvailable}
               callbackMap={this.getMap}
             />
-         </div>
+          </div>
         ) : null}
         {!this.state.hideForm ? (
           <ClientForm

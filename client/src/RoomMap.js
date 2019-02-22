@@ -5,7 +5,11 @@ import "./css/RoomMap.css";
 class RoomMap extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.getInitialState();
+  }
+
+  getInitialState() {
+    return {
       roomsAmount: this.props.roomsAmount,
       roomsAvailable: this.props.roomsAvailable,
       roomsAvailableNr: this.props.roomsAvailable.map(e => e.room_nr),
@@ -20,11 +24,10 @@ class RoomMap extends React.Component {
       this.props.roomsAmount !== prevProps.roomsAmount ||
       this.props.roomsAvailable !== prevProps.roomsAvailable
     ) {
-      this.setState({
-        roomsAmount: this.props.roomsAmount,
-        roomsAvailable: this.props.roomsAvailable,
-        roomsAvailableNr: this.props.roomsAvailable.map(e => e.room_nr)
-      });
+      this.setState(
+        this.getInitialState(),
+        this.props.callbackMap(this.state.roomsSelected, true)
+      );
     }
   }
 
@@ -38,10 +41,18 @@ class RoomMap extends React.Component {
           roomSelected: null
         });
       } else {
-        this.setState({
-          roomSelected: value
-          
-        },()=>{this.getOpinions(this.state.roomsAvailable.find(e => e.room_nr===this.state.roomSelected).room_nr)});
+        this.setState(
+          {
+            roomSelected: value
+          },
+          () => {
+            this.getOpinions(
+              this.state.roomsAvailable.find(
+                e => e.room_nr === this.state.roomSelected
+              ).room_nr
+            );
+          }
+        );
       }
     } else {
       alert("nie mozna");
@@ -59,29 +70,32 @@ class RoomMap extends React.Component {
       : "";
   }
 
-  handleAddRoom() {
-    this.setState(prevState => ({
-      roomsSelected: [...prevState.roomsSelected, this.state.roomSelected]
-    }));
-  }
+  handleAddRoom = () => {
+    if (!this.state.roomsSelected.includes(this.state.roomSelected)) {
+      this.setState(prevState => ({
+        roomsSelected: [...prevState.roomsSelected, this.state.roomSelected]
+      }));
+    }
+  };
 
   handleRemoveRoom(value) {
     let array = [...this.state.roomsSelected];
     let index = array.indexOf(value);
     if (index !== -1) {
       array.splice(index, 1);
-      this.setState({ roomsSelected: array });
+      this.setState(
+        { roomsSelected: array },
+        this.props.callbackMap(this.state.roomsSelected, true)
+      );
     }
   }
 
-  handleNextStage(){
-    
-      this.props.callbackMap(this.state.roomsSelected);
-    
-  }
+  handleNextStage = () => {
+    this.props.callbackMap(this.state.roomsSelected, false);
+  };
 
-  getOpinions(nr){
-    fetch("/opinions/room/"+nr, {
+  getOpinions(nr) {
+    fetch("/opinions/room/" + nr, {
       method: "GET"
     })
       .then(function(response) {
@@ -92,41 +106,53 @@ class RoomMap extends React.Component {
       })
       .then(data => {
         this.setState({
-          opinions:data
-        })
+          opinions: data
+        });
       })
       .catch(err => {
         console.log("caught it!", err);
       });
   }
 
-  renderOpinion(nr){
-    let arr = []
-    const opinions = this.state.opinions
-    for(let opinion in opinions){
-      arr.push(<div><h1>{opinions[opinion].stars+"/5"}</h1><p>{opinions[opinion].content}</p></div>)
+  renderOpinion() {
+    let arr = [];
+    const opinions = this.state.opinions;
+    for (let opinion in opinions) {
+      arr.push(
+        <div key={opinion}>
+          <h1>{opinions[opinion].stars + "/5"}</h1>
+          <p>{opinions[opinion].content}</p>
+        </div>
+      );
     }
-    return arr
+    return arr;
   }
 
   renderRoom() {
-    let room = this.state.roomsAvailable.find(e => e.room_nr===this.state.roomSelected);
+    let room = this.state.roomsAvailable.find(
+      e => e.room_nr === this.state.roomSelected
+    );
     const roomsSelected = this.state.roomsSelected;
-    
-    let roomRemove= [];
-    for(let room in roomsSelected){
+
+    let roomRemove = [];
+    for (let room in roomsSelected) {
       roomRemove.push(
-        <div>
-          {"Pokój nr "+roomsSelected[room]} <img src={require('./img/icon-x.png')} alt="x" onClick={() => this.handleRemoveRoom(roomsSelected[room])}/>
+        <div key={room}>
+          {"Pokój nr " + roomsSelected[room]}{" "}
+          <img
+            src={require("./img/icon-x.png")}
+            alt="x"
+            onClick={() => this.handleRemoveRoom(roomsSelected[room])}
+          />
         </div>
-      )
+      );
     }
-    if(room!==undefined){
+    if (room !== undefined) {
       return (
         <div className=" room-box col-lg-5">
           <div className="room-photo">
             <img
-              src={require("./img/"+room.photoUrl)}
+              src={require("./img/" + room.photoUrl)}
               alt="pokój"
               className="img-fluid"
             />
@@ -144,20 +170,24 @@ class RoomMap extends React.Component {
             <br />
             Maksymalna ilość osób:{" " + room.peopleMax}
           </div>
-          <div className='opinions'>
-            {this.renderOpinion(room.room_nr)}
-          </div>
-          <div className="">
-            {roomRemove}
-          </div>
+          <div className="opinions">{this.renderOpinion()}</div>
+          <div className="">{roomRemove}</div>
 
-          <button  disabled={roomsSelected.length>=this.state.roomsAmount} onClick={() => this.handleAddRoom()}>Dodaj pokoj</button>
-          <button disabled={roomsSelected.length<this.state.roomsAmount} onClick={() => this.handleNextStage()}>Przejdź dalej</button>
-          
+          <button
+            disabled={roomsSelected.length >= this.state.roomsAmount}
+            onClick={this.handleAddRoom}
+          >
+            Dodaj pokoj
+          </button>
+          <button
+            disabled={roomsSelected.length < this.state.roomsAmount}
+            onClick={this.handleNextStage}
+          >
+            Przejdź dalej
+          </button>
         </div>
       );
-    }else return null
-    
+    } else return null;
   }
 
   render() {

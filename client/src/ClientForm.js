@@ -6,8 +6,12 @@ import "./css/Login.css";
 class ClientForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: null,
+    this.state = this.getInitialState();
+  }
+
+  getInitialState() {
+    return {
+      name:  null,
       surname: null,
       email: null,
       phone: null,
@@ -16,11 +20,7 @@ class ClientForm extends React.Component {
       peopleAmount: Number(this.props.peopleAmount),
       roomsChose: this.props.roomsChose
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
-
 
   componentDidUpdate(prevProps) {
     if (
@@ -29,12 +29,7 @@ class ClientForm extends React.Component {
       this.props.peopleAmount !== prevProps.peopleAmount ||
       this.props.roomsChose !== prevProps.roomsChose
     ) {
-      this.setState({
-        dateFrom: this.props.dateFrom,
-        dateTo: this.props.dateTo,
-        peopleAmount: Number(this.props.peopleAmount),
-        roomsChose: this.props.roomsChose
-      });
+      this.setState(this.getInitialState());
     }
   }
 
@@ -61,24 +56,7 @@ class ClientForm extends React.Component {
         }
        
     }
-    /*function checkCode(code) {
-      var check = false;
-      return fetch(`/reservations/reservation/${code}`, { method: "GET" })
-        .then(function(response) {
-          if (response.status >= 400) {
-            throw new Error("Bad response from server");
-          }
-          return response.json();
-        })
-        .then(function(response) {
-          !response.length ? (check = false) : (check = true);
-          return check;
-        })
-        .catch(err => {
-          console.log("caught it!", err);
-        });
-    }*/
-    var code;
+    let code;
     do {
       code = generateCode();
     } while (!checkCode(code).then(check => check));
@@ -90,13 +68,13 @@ class ClientForm extends React.Component {
     return /^[a-zA-ZzżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/.test(str);
   }
 
-  handleChange(event) {
+  handleChange = e => {
     this.setState({
-      [event.target.id]: event.target.value
+      [e.target.id]: e.target.value
     });
   }
 
-  handleSubmit() {
+  handleSubmit = () => {
     var client = {
       name: this.state.name,
       surname: this.state.surname,
@@ -125,7 +103,6 @@ class ClientForm extends React.Component {
         return response.json();
       })
       .then(function(response) {
-        console.log("success1");
         clientPostId = response.insertId;
       })
       .then(() => {
@@ -143,9 +120,6 @@ class ClientForm extends React.Component {
               }
               return response.json();
             })
-            .then(function() {
-              console.log("success1milion");
-            });
         }
       })
       .catch(err => {
@@ -163,7 +137,7 @@ class ClientForm extends React.Component {
               type="text"
               placeholder="Imię"
               id="name"
-              value={this.state.name}
+              value={this.state.name || ""}
               onChange={this.handleChange}
             />
           </FormGroup>
@@ -172,7 +146,7 @@ class ClientForm extends React.Component {
               type="text"
               placeholder="Nazwisko"
               id="surname"
-              value={this.state.surname}
+              value={this.state.surname || ""}
               onChange={this.handleChange}
             />
           </FormGroup>
@@ -181,7 +155,7 @@ class ClientForm extends React.Component {
               type="email"
               placeholder="Email"
               id="email"
-              value={this.state.email}
+              value={this.state.email || ""}
               onChange={this.handleChange}
             />
           </FormGroup>
@@ -190,7 +164,7 @@ class ClientForm extends React.Component {
               type="text"
               placeholder="Telefon"
               id="phone"
-              value={this.state.phone}
+              value={this.state.phone || ""}
               onChange={this.handleChange}
             />
           </FormGroup>
@@ -202,17 +176,3 @@ class ClientForm extends React.Component {
   }
 }
 export default ClientForm;
-
-/*<FormGroup>
-                        <Label for="room">Numer pokoju</Label>
-                        <Input
-                            type="select"
-                            id="room"
-                            value={this.state.room}
-                            onChange={this.handleChange}>
-                            <option selected>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </Input>
-                    </FormGroup>*/
