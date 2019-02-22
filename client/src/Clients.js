@@ -2,7 +2,7 @@ import React from "react";
 
 import AuthHelperMethods from './components/AuthHelperMethods';
 
-class Data extends React.Component {
+class Clients extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +13,7 @@ class Data extends React.Component {
   Auth = new AuthHelperMethods();
 
   componentDidMount() {
+    /*use helper function for autorization from AHM*/
     this.Auth.fetch("/clients", {
       method: "GET"
     })
@@ -25,7 +26,7 @@ class Data extends React.Component {
 
   }
 
-  updateKlient() {
+  updateKlient = () => {
     var data = {
       name: "Wojtek",
       surname: "Lasak",
@@ -49,7 +50,7 @@ class Data extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.updateKlient()}>Update first data</button>
+        <button onClick={this.updateKlient}>Update first data</button>
         <table>
           <thead>
             <tr>
@@ -79,4 +80,4 @@ class Data extends React.Component {
   }
 }
 
-export default Data;
+export default Clients;

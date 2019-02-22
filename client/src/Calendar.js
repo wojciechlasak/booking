@@ -33,9 +33,6 @@ const WEEKDAYS_SHORT = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "N"];
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
-    this.handleDayClick = this.handleDayClick.bind(this);
-    this.handleDayMouseEnter = this.handleDayMouseEnter.bind(this);
-    this.handleResetClick = this.handleResetClick.bind(this);
     this.state = this.getInitialState();
 
   }
@@ -51,7 +48,7 @@ class Calendar extends React.Component {
     const isRangeSelected = from && to;
     return !from || isBeforeFirstDay || isRangeSelected;
   }
-  handleDayClick(day, { disabled }) {
+  handleDayClick = (day, { disabled }) => {
     if (!disabled) {
       const { from, to } = this.state;
       if (from && to && day >= from && day <= to) {
@@ -64,7 +61,7 @@ class Calendar extends React.Component {
           to: null,
           enteredTo: null
         });
-      } else {
+      } else { /*if both selected, change state and callback to parent*/
         this.setState(
           {
             to: day,
@@ -73,14 +70,15 @@ class Calendar extends React.Component {
           () => {
             this.props.callback(
               this.state.from.toISOString(),
-              this.state.to.toISOString()
+              this.state.to.toISOString(),
+              true
             );
           }
         );
       }
     }
   }
-  handleDayMouseEnter(day) {
+  handleDayMouseEnter = day => {
     const { from, to } = this.state;
     if (!this.isSelectingFirstDay(from, to, day)) {
       this.setState({
@@ -88,7 +86,7 @@ class Calendar extends React.Component {
       });
     }
   }
-  handleResetClick() {
+  handleResetClick = () => {
     this.setState(this.getInitialState());
   }
 
@@ -100,7 +98,7 @@ class Calendar extends React.Component {
     return (
       <div className="calendar-container">
         <DayPicker
-          className={"MyStyle"}
+          className={"client"}
           numberOfMonths={2}
           fromMonth={from}
           selectedDays={selectedDays}

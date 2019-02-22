@@ -68,7 +68,7 @@ class Rooms extends React.Component {
         arr.push(
           <div className="room-box col-lg-5 mr-3 mb-3">
             <div className="room-photo">
-              <img src={room.photoUrl} alt="pokój" className="img-fluid" />
+              <img src={require("./img/"+room.photoUrl)} alt="pokój" className="img-fluid" />
             </div>
             <div className="room-info">
               Numer: {room.room_nr}

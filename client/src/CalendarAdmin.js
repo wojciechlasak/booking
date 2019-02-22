@@ -79,7 +79,7 @@ class CalendarAdmin extends React.Component {
     return (
       <div className="calendar-container">
         <DayPicker
-          className={"MyStyle"}
+          className={"client"}
           numberOfMonths={this.props.numberOfMonths}
           selectedDays={[
             new Date(2019, 2, 12),

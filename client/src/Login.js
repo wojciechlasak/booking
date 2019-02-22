@@ -19,9 +19,9 @@ class Login extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  /*after submit post into login*/
   handleFormSubmit = (e) => {
     e.preventDefault();
-    /* Here is where all the login logic will go. Upon clicking the login button, we would like to utilize a login method that will send our entered credentials over to the server for verification. Once verified, it should store your token and send you to the protected route. */
     this.Auth.login(this.state.nick, this.state.password)
         .then(res => {
             if (res === false) {
@@ -30,12 +30,13 @@ class Login extends React.Component {
             this.props.history.replace('/admin');
         })
         .catch(err => {
+            console.log(err);
             alert(err);
         })
 }
 
 componentWillMount() {
-    /* Here is a great place to redirect someone who is already logged in to the protected route */
+    /* redirect if someone is logged in */
     if (this.Auth.loggedIn())
         this.props.history.replace('/admin');
 }
@@ -44,24 +45,24 @@ componentWillMount() {
     return (
       <div className="Login">
         <Form onSubmit={this.handleFormSubmit}>
-          <FormGroup bsSize="large">
+          <FormGroup >
             <Input
               autoFocus
               type="text"
               name="nick"
-              placeholder="Nick"
+              placeholder="Nazwa użytkownika"
               onChange={this.onChange}
             />
           </FormGroup>
-          <FormGroup bsSize="large">
+          <FormGroup>
             <Input
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="Hasło"
               onChange={this.onChange}
             />
           </FormGroup>
-          <Button type="submit">Login</Button>
+          <Button type="submit">Zaloguj się</Button>
         </Form>
       </div>
     );
