@@ -2,7 +2,7 @@
   display: inline-block;
 }
 
-.MyStyle {
+.client {
   background-color: #fff;
 }
 
@@ -12,41 +12,41 @@
 
 /*Navigation arrow*/
 
-.MyStyle .DayPicker-NavButton {
+.client .DayPicker-NavButton {
   right: 46%;
   background-size: auto;
 }
 
-.MyStyle .DayPicker-NavButton--next {
+.client .DayPicker-NavButton--next {
   background-image: url("../img/arrow.svg");
   transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
 }
 
-.MyStyle .DayPicker-NavButton--prev {
+.client .DayPicker-NavButton--prev {
   margin-right: 2em;
   background-image: url("../img/arrow.svg");
 }
 
-.MyStyle .DayPicker-Caption {
+.client .DayPicker-Caption {
   font-family: "Proxima";
   color: #4d4d4d;
   margin-top: -0.2em;
 }
 
-.MyStyle .DayPicker-Months .DayPicker-Month:nth-child(1) .DayPicker-Caption {
+.client .DayPicker-Months .DayPicker-Month:nth-child(1) .DayPicker-Caption {
   margin-right: 1em;
   text-align: right;
 }
 
-.MyStyle .DayPicker-Months .DayPicker-Month:nth-child(2) .DayPicker-Caption {
+.client .DayPicker-Months .DayPicker-Month:nth-child(2) .DayPicker-Caption {
   margin-left: 1em;
 }
 
 /*Weekday and Day border/padding */
 
-.MyStyle .DayPicker-Weekday {
+.client .DayPicker-Weekday {
   font-family: "Proxima-Light";
   padding: 0.2em 1em;
   color: #000;
@@ -54,43 +54,43 @@
   border-top: none;
 }
 
-.MyStyle .DayPicker-Weekday:nth-child(1) {
+.client .DayPicker-Weekday:nth-child(1) {
   border-left: none;
 }
-.MyStyle .DayPicker-Weekday:nth-child(7) {
+.client .DayPicker-Weekday:nth-child(7) {
   border-right: none;
 }
 
-.MyStyle .DayPicker-Day {
+.client .DayPicker-Day {
   font-family: "Proxima";
   border: solid 1px #cecece;
   border-radius: 0;
 }
 
-.MyStyle .DayPicker-Day:nth-child(1) {
+.client .DayPicker-Day:nth-child(1) {
   border-left: none;
 }
-.MyStyle .DayPicker-Day:nth-child(7) {
+.client .DayPicker-Day:nth-child(7) {
   border-right: none;
 }
-.MyStyle .DayPicker-Week:last-child .DayPicker-Day {
+.client .DayPicker-Week:last-child .DayPicker-Day {
   border-bottom: none;
 }
 
 /*Day color*/
-.MyStyle
+.client
   .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
   background-color: #e7e1da;
   color: #4c3b2d;
 }
 
-.MyStyle
+.client
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   background-color: #deaf59;
   color: #fff;
 }
 
-.MyStyle
+.client
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
   background-color: #dbb56d;
   color: #fff;
@@ -102,7 +102,7 @@
   color: #4c3b2d;
 }
 
-.MyStyle .DayPicker-Day--today {
+.client .DayPicker-Day--today {
   color: #000;
   font-weight: 400;
 }
