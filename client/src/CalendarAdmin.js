@@ -46,15 +46,9 @@ class CalendarAdmin extends React.Component {
   Auth = new AuthHelperMethods();
 
   componentDidMount() {
-    fetch("/reservations/room/3", {
+    this.Auth.fetch("/reservations/room/3", {
       method: "GET"
     })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
       .then(data => {
         data.map(e => {
           e.dateFrom = new Date(e.dateFrom);

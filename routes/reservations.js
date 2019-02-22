@@ -2,8 +2,14 @@ const con = require("../db.js");
 var express = require("express");
 var router = express();
 
+/*JWT express*/
+const exjwt = require("express-jwt");
+const jwtMW = exjwt({
+  secret: "top_secret"
+});
+
 /*GET reservation*/
-router.get("/room/:roomNr", function(req, res) {
+router.get("/room/:roomNr",jwtMW, function(req, res) {
   con.query(
     `SELECT * FROM reservation WHERE room_nr='${
       req.params["roomNr"]

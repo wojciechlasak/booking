@@ -2,6 +2,12 @@ const con = require("../db.js");
 var express = require("express");
 var router = express();
 
+/*JWT express*/
+const exjwt = require("express-jwt");
+const jwtMW = exjwt({
+  secret: "top_secret"
+});
+
 /*GET rooms*/
 router.get("/", function(req, res) {
   con.query(
@@ -48,7 +54,7 @@ router.get("/free/info", function(req, res) {
 });
 
 /*Update room*/
-router.patch('/:roomId', function(req, res) {
+router.patch('/:roomId',jwtMW, function(req, res) {
   con.query(`UPDATE room SET ${req.body.name} = '${req.body.value}'  WHERE room_nr = ${req.params["roomId"]}`, function (error, results, fields) {
       if(error) throw error;
       res.send(JSON.stringify(results));

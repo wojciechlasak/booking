@@ -16,15 +16,9 @@ class Rooms extends React.Component {
   Auth = new AuthHelperMethods();
 
   componentDidMount() {
-    fetch("/rooms", {
+    this.Auth.fetch("/rooms", {
       method: "GET"
     })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
-      })
       .then(data => {
         console.log(data);
         this.setState({
@@ -40,24 +34,16 @@ class Rooms extends React.Component {
     var data = {
       name: evt._targetInst.memoizedProps.name,
       value: evt.target.value
-  };
+    };
 
-  fetch(`/rooms/${evt._targetInst.memoizedProps.nr}`, {
+    this.Auth.fetch(`/rooms/${evt._targetInst.memoizedProps.nr}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
-  })
-      .then(function (response) {
-          if (response.status >= 400) {
-              throw new Error("Bad response from server");
-          }
-          return response.json();
+    }).then(function() {
+        console.log("success");
       })
-      .then(function () {
-          console.log("success");
-      })
-      .catch(function (err) {
-          console.log(err);
+      .catch(function(err) {
+        console.log(err);
       });
   };
 
@@ -68,7 +54,11 @@ class Rooms extends React.Component {
         arr.push(
           <div className="room-box col-lg-5 mr-3 mb-3">
             <div className="room-photo">
-              <img src={require("./img/"+room.photoUrl)} alt="pokój" className="img-fluid" />
+              <img
+                src={require("./img/" + room.photoUrl)}
+                alt="pokój"
+                className="img-fluid"
+              />
             </div>
             <div className="room-info">
               Numer: {room.room_nr}

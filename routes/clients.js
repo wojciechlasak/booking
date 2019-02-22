@@ -2,23 +2,19 @@ const con = require("../db.js");
 var express = require("express");
 var router = express();
 
+/*JWT express*/
+const exjwt = require("express-jwt");
+const jwtMW = exjwt({
+  secret: "top_secret"
+});
+
 /* GET users listing. */
-router.get("/", function(req, res) {
+
+router.get("/",jwtMW, function(req, res) {
   con.query("SELECT * FROM client", function(error, results, fields) {
     if (error)  res.send(error);
     res.send(JSON.stringify(results));
   });
-});
-
-/*GET specify user*/
-router.get("/:clientId", function(req, res) {
-  con.query(
-    `SELECT * FROM client WHERE client_id=${req.params["clientId"]}`,
-    function(error, results, fields) {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-    }
-  );
 });
 
 /*POST*/
@@ -37,7 +33,7 @@ router.post("/", function(req, res) {
 });
 
 /*DELETE*/
-router.delete("/:clientId", function(req, res) {
+router.delete("/:clientId",jwtMW, function(req, res) {
   con.query(
     "DELETE FROM client where client_id = " + req.params["clientId"] + "",
     function(error, results, fields) {
@@ -48,7 +44,7 @@ router.delete("/:clientId", function(req, res) {
 });
 
 /*UPDATE*/
-router.patch("/:clientId", function(req, res) {
+router.patch("/:clientId",jwtMW, function(req, res) {
   con.query(
     `UPDATE client SET name = '${req.body.name}', surname = '${
       req.body.surname

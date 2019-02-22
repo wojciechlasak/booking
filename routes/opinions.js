@@ -2,23 +2,18 @@ const con = require("../db.js");
 var express = require("express");
 var router = express();
 
+/*JWT express*/
+const exjwt = require("express-jwt");
+const jwtMW = exjwt({
+  secret: "top_secret"
+});
+
 /*GET all opinions*/
-router.get("/", function(req, res) {
+router.get("/",jwtMW, function(req, res) {
   con.query(`SELECT * FROM opinion`, function(error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify(results));
   });
-});
-
-/*GET specify opinion*/
-router.get("/:opinionId", function(req, res) {
-  con.query(
-    `SELECT * FROM opinion WHERE opinion_id='${req.params["opinionId"]}'`,
-    function(error, results, fields) {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-    }
-  );
 });
 
 /*GET oponion for specify room nr*/

@@ -27,10 +27,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
-//express-jwt
-const jwtMW = exjwt({
-  secret: "top_secret"
-});
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-type,Authorization");
