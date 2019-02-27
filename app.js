@@ -8,6 +8,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
 const exjwt = require("express-jwt");
+const bcrypt = require('bcrypt');
 
 var indexRouter = require("./routes/index");
 var clientRouter = require("./routes/clients");
@@ -48,10 +49,15 @@ passport.use(
       passwordField: "password"
     },
     function(nick, password, done) {
-      if (nick === "admin" && password === "admin") {
-        return done(null, { name: "admin", id: "1234" });
+      if (nick === "admin") {
+        if(bcrypt.compareSync(password,"$2b$12$UbeX6QZDc6tCf.kh8sNiNu8K48FKaFc.P8K.CYIyF7A51wpd.xCxS")){
+          return done(null, { name: "admin", id: "1234" });
+        }
+        else{
+          return done(null, false, { message: "Incorrect pass." });
+        }
       } else {
-        return done(null, false, { message: "Incorrect cred." });
+        return done(null, false, { message: "Incorrect name" });
       }
     }
   )
