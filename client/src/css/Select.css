@@ -1,25 +1,105 @@
-.svg-rect {
-  fill: #fff;
+.client-select {
+  padding: 0.5em;
+  width: 100%;
 }
 
-.svg-rect-outer{
-    fill:#000;
-    transition: 0.3s;
+.client-select-title {
+  background-color: #fff;
+  padding: 0.5em;
+  text-align: left;
+  width: 100%;
+}
+.client-select-room {
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
 }
 
-.svg-text {
-  font-size: 29px;
-  font-family: Proxima;
-}
-.svg-text-small {
-    font-size: 19px;
-  }
-
-#room5{
-    cursor: pointer;
+.client-select-person {
+  position: relative;
+  background-color: #fff;
+  padding: 0.5em 2em 0.5em 0.5em;
+  min-height: 3em;
+  transition: 0.5s;
 }
 
-#room5:hover .svg-rect-outer{
-  fill: red;
+.client-select-person-arrow {
+  position: absolute;
+  cursor: pointer;
+  right: 0.5em;
+  top: 0em;
+  width: 1.5em;
+  height: 1.5em;
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  background-image: url("../img/arrow.svg");
+  background-repeat: no-repeat;
+  transition: 0.5s;
 }
 
+.rotate-90 {
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+}
+
+.show {
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.client-select-person-icon,
+.client-select-person label {
+  position: relative;
+  cursor: pointer;
+  background-image: url("../img/ludzik.svg");
+  background-repeat: no-repeat;
+  width: 2em;
+  height: 2em;
+  transition: 0.5s;
+}
+
+.client-select-person input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+.client-select-person input:checked ~ label {
+  opacity: 0.3;
+}
+
+.client-select-person input:checked ~ label:hover {
+  opacity: 1;
+}
+
+.client-select-person input:checked + label {
+  opacity: 1;
+}
+
+.client-select-person input:checked + label:hover {
+  opacity: 1;
+}
+
+.client-select-person input:focus + label,
+.client-select-person input:checked + label:active {
+  opacity: 1;
+}
+
+.client-select-person label:hover {
+  opacity: 1;
+}
+
+select {
+  min-height: 3em;
+  padding: 0.5em 2em 0.5em 0.5em;
+}
