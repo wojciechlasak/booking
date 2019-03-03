@@ -20,13 +20,15 @@ class Client extends React.Component {
       roomsAmount: null,
       roomsChose: null
     };
+    this.mapRef = React.createRef()
+    this.topRef = React.createRef()
   }
-  getDate = (param1, param2,hide) => {
+  getDate = (param1, param2, hide) => {
     this.setState({
       from: param1,
       to: param2,
-      hideMap:hide,
-      hideForm:hide
+      hideMap: hide,
+      hideForm: hide
     });
   };
 
@@ -37,28 +39,58 @@ class Client extends React.Component {
       roomsAmount: param3,
       hideMap: hide,
       hideForm: true
+    },
+      ()=> {
+        if(!hide){
+          this.mapRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+        else{
+          this.topRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    );
+
+  };
+  getMap = (param, hide) => {
+    this.setState({
+      roomsChose: param,
+      hideForm: hide
+    },
+    ()=> {
+      if(hide){
+        this.mapRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     });
   };
-  getMap = (param,hide) => {
-      this.setState({
-        roomsChose: param,
-        hideForm: hide
-      });
-  };
+
 
   render() {
     return (
-      <div id="client">
+      <div id="client" ref={this.topRef}>
         <div id="top">
-          <Calendar callback={this.getDate} />
-          <ClientSelect
-            callbackSelect={this.getSelect}
-            dateFrom={this.state.from}
-            dateTo={this.state.to}
-          />
+          <div className="container">
+            <div className="row justify-content-end">
+              <div className="col-lg-8 text-right">
+                <div className="r" />
+                <Calendar callback={this.getDate} />
+              </div>
+            </div>
+            <div className="row justify-content-end">
+              <div className="col-lg-8 text-right">
+                <div className="r" />
+                <ClientSelect
+                  callbackSelect={this.getSelect}
+                  dateFrom={this.state.from}
+                  dateTo={this.state.to}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="r"/>
+          <div className="r"/>
         </div>
         {!this.state.hideMap ? (
-          <div className="container">
+          <div className="container" ref={this.mapRef}>
             <RoomMap
               roomsAmount={this.state.roomsAmount}
               roomsAvailable={this.state.roomsAvailable}
