@@ -1,9 +1,14 @@
-* {box-sizing:border-box;}
-html,body {height:100%;}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
-  font-family: Proxima;
+  font-family: Proxima-light;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,4 +31,11 @@ code {
 .r {
   clear: both;
   height: 3em;
+}
+
+@media (max-width: 768px) {
+  .r-768 {
+    clear: both;
+    height: 3em;
+  }
 }
