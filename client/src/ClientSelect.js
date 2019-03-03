@@ -8,7 +8,8 @@ class ClientSelect extends React.Component {
     this.state = {
       peopleMax: null,
       rooms: null,
-      peopleAmount: null
+      peopleAmount: null,
+      peopleSelect: false
     };
   }
 
@@ -16,7 +17,8 @@ class ClientSelect extends React.Component {
     return {
       peopleMax: null,
       rooms: null,
-      peopleAmount: null
+      peopleAmount: null,
+      peopleSelect: false
     };
   }
 
@@ -74,14 +76,32 @@ class ClientSelect extends React.Component {
     }
   }
 
+  generatePeopleIcon() {
+    var arr = [];
+    if (this.state.peopleAmount !== null) {
+      for (let i = 1; i <= this.state.peopleAmount; i++) {
+        arr.push(<div className="client-select-person-icon" />);
+      }
+    }
+    return arr;
+  }
+
   generatePeople() {
     var arr = [];
 
     for (let i = 1; i <= this.state.peopleMax; i++) {
       arr.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
+        <>
+          <input
+            type="radio"
+            name="person"
+            key={i}
+            id={i}
+            onChange={this.handlePeopleChange}
+            
+          />
+          <label htmlFor={i} />
+        </>
       );
     }
 
@@ -128,11 +148,24 @@ class ClientSelect extends React.Component {
     return arr;
   }
 
+  handlePeopleClick = () => {
+    this.setState(prevState => ({
+      peopleSelect: !prevState.peopleSelect
+    }));
+  };
+
+  handlePeopleBlur = () => {
+    this.setState({
+      peopleSelect: false
+    });
+  };
+
+
   handlePeopleChange = e => {
-    if (e.target.value !== "") {
+    if (e.target.id !== "") {
       this.setState(
         {
-          peopleAmount: e.target.value
+          peopleAmount: e.target.id
         },
         this.sendCallback(null, true)
       );
@@ -141,6 +174,7 @@ class ClientSelect extends React.Component {
   handleRoomsChange = e => {
     this.sendCallback(e.target.value, e.target.value !== "" ? false : true);
   };
+
   sendCallback(value, hide) {
     this.props.callbackSelect(
       this.state.peopleAmount,
@@ -152,15 +186,42 @@ class ClientSelect extends React.Component {
 
   render() {
     return (
-      <div>
-        <select onChange={this.handlePeopleChange}>
-          <option value="">Wybierz ilość osób</option>
-          {this.generatePeople()}
-        </select>
-        <select onChange={this.handleRoomsChange}>
-          <option value="">Wybierz ilość pokoi</option>
-          {this.generateRooms()}
-        </select>
+      <div className="row justify-content-end">
+        <div className="col-sm-4 d-flex flex-column">
+          <div className="client-select-title">Ilość osób:</div>
+          <div
+            onClick={this.handlePeopleClick}
+            className="client-select-person d-flex flex-row flex-wrap justify-content-start"
+          >
+            {this.generatePeopleIcon()}
+            <div
+              className={
+                "client-select-person-arrow" +
+                (this.state.peopleSelect ? " rotate-90" : "")
+              }
+            />
+          </div>
+
+          <div
+            className={
+              "client-select-person border-top border-secondary d-flex flex-row flex-wrap justify-content-start" +
+              (this.state.peopleSelect ? " show" : " hidden")
+            }
+            onBlur={ this.handlePeopleBlur }
+          >
+            {this.generatePeople()}
+          </div>
+        </div>
+        <div className="sm-ml-3 col-sm-4 d-flex flex-column">
+          <div className="client-select-title">Ilość pokoi:</div>
+          <select
+            onChange={this.handleRoomsChange}
+            className="client-select-room"
+          >
+            <option value="" />
+            {this.generateRooms()}
+          </select>
+        </div>
       </div>
     );
   }
