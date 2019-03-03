@@ -1,11 +1,5 @@
 
 
-#svg-map {
-  max-height: 800px;
-  max-width: 500px;
-  padding:25px 0;
-}
-
 .room-box{
   padding:20px;
   background-color:#313131;
@@ -17,11 +11,15 @@
 }
 
 .room-info{
-  padding:20px;
+  padding:1em;
 }
 
 .room-info > div{
   display: inline;
+}
+
+.opinions-container{
+  padding:1em;
 }
 
 .cls-1,
@@ -117,4 +115,52 @@
 
 .selected rect, .selected polyline{
   fill:#ccc2b8
+}
+
+.rooms-chosen-container{
+  background-color:#313131;
+  border-radius: 10px;
+  color:#fff;
+}
+
+.rooms-chosen-container h3{
+  padding:1em;
+}
+
+.rooms-chosen-single{
+  padding:0.79em;
+}
+
+.rooms-chosen-single-img{
+  display: inline-block;
+  background-image: url("../img/icon-x.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+  width: 1.5em;
+  height: 1.5em;
+  margin-left: 0.5em;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.rooms-chosen-single-img:hover{
+    background-image: url("../img/icon-x-full.png");
+}
+
+.star{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0.2em;
+}
+
+.star-full{
+  background-image: url("../img/star-full.png");
+}
+
+.star-empty{
+  background-image: url("../img/star.png");
 }
