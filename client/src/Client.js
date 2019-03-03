@@ -86,16 +86,18 @@ class Client extends React.Component {
               </div>
             </div>
           </div>
-          <div className="r"/>
-          <div className="r"/>
+          <div className="r-768"/>
+          <div className="r-768"/>
         </div>
         {!this.state.hideMap ? (
-          <div className="container" ref={this.mapRef}>
+          <div className="container-fluid" ref={this.mapRef}>
+            <div className="r"/>
             <RoomMap
               roomsAmount={this.state.roomsAmount}
               roomsAvailable={this.state.roomsAvailable}
               callbackMap={this.getMap}
             />
+            <div className="r"/>
           </div>
         ) : null}
         {!this.state.hideForm ? (
