@@ -74,6 +74,15 @@
   clip: rect(0, 0, 0, 0);
 }
 
+.icon-gray{
+  opacity:0.3;
+}
+
+
+.client-select-person input label.icon-gray:hover {
+  opacity: 1;
+}
+
 .client-select-person input:checked ~ label {
   opacity: 0.3;
 }
@@ -98,6 +107,8 @@
 .client-select-person label:hover {
   opacity: 1;
 }
+
+
 
 select {
   min-height: 3em;
