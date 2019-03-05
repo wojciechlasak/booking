@@ -5,12 +5,7 @@ import "./css/Select.css";
 class ClientSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      peopleMax: null,
-      rooms: null,
-      peopleAmount: null,
-      peopleSelect: false
-    };
+    this.state = this.getInitialState();
   }
 
   getInitialState() {
@@ -18,7 +13,7 @@ class ClientSelect extends React.Component {
       peopleMax: null,
       rooms: null,
       peopleAmount: null,
-      peopleSelect: false
+      peopleOpen: false
     };
   }
 
@@ -80,7 +75,7 @@ class ClientSelect extends React.Component {
     var arr = [];
     if (this.state.peopleAmount !== null) {
       for (let i = 1; i <= this.state.peopleAmount; i++) {
-        arr.push(<div className="client-select-person-icon" />);
+        arr.push(<div key={i} className="client-select-person-icon" />);
       }
     }
     return arr;
@@ -98,9 +93,11 @@ class ClientSelect extends React.Component {
             key={i}
             id={i}
             onChange={this.handlePeopleChange}
-            
           />
-          <label htmlFor={i} />
+          <label
+            className={this.state.peopleAmount !== null ? "" : "icon-gray"}
+            htmlFor={i}
+          />
         </>
       );
     }
@@ -150,26 +147,25 @@ class ClientSelect extends React.Component {
 
   handlePeopleClick = () => {
     this.setState(prevState => ({
-      peopleSelect: !prevState.peopleSelect
+      peopleOpen: !prevState.peopleOpen
     }));
   };
 
-  handlePeopleBlur = () => {
+  handlePeopleMouseLeave = () => {
     this.setState({
-      peopleSelect: false
+      peopleOpen: false
     });
   };
 
-
   handlePeopleChange = e => {
-    if (e.target.id !== "") {
-      this.setState(
-        {
-          peopleAmount: e.target.id
-        },
-        this.sendCallback(null, true)
-      );
-    }
+    this.setState(
+      {
+        peopleAmount: e.target.id,
+        peopleOpen: false,
+        peopleSelect: true
+      },
+      this.sendCallback(null, true)
+    );
   };
   handleRoomsChange = e => {
     this.sendCallback(e.target.value, e.target.value !== "" ? false : true);
@@ -187,7 +183,10 @@ class ClientSelect extends React.Component {
   render() {
     return (
       <div className="row justify-content-end">
-        <div className="col-sm-4 d-flex flex-column">
+        <div
+          onMouseLeave={this.handlePeopleMouseLeave}
+          className="col-sm-4 d-flex flex-column"
+        >
           <div className="client-select-title">Ilość osób:</div>
           <div
             onClick={this.handlePeopleClick}
@@ -197,7 +196,7 @@ class ClientSelect extends React.Component {
             <div
               className={
                 "client-select-person-arrow" +
-                (this.state.peopleSelect ? " rotate-90" : "")
+                (this.state.peopleOpen ? " rotate-90" : "")
               }
             />
           </div>
@@ -205,9 +204,8 @@ class ClientSelect extends React.Component {
           <div
             className={
               "client-select-person border-top border-secondary d-flex flex-row flex-wrap justify-content-start" +
-              (this.state.peopleSelect ? " show" : " hidden")
+              (this.state.peopleOpen ? " show" : " hidden")
             }
-            onBlur={ this.handlePeopleBlur }
           >
             {this.generatePeople()}
           </div>
