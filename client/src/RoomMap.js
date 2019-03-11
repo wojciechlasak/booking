@@ -15,7 +15,8 @@ class RoomMap extends React.Component {
       roomsAvailableNr: this.props.roomsAvailable.map(e => e.room_nr),
       roomSelected: null,
       roomsSelected: [],
-      opinions: []
+      opinions: [],
+      bookingButton: true
     };
   }
 
@@ -32,10 +33,7 @@ class RoomMap extends React.Component {
   }
 
   handleClickSVG(value) {
-    if (
-      this.state.roomsAvailableNr.includes(value) &&
-      this.state.roomsAmount > this.state.roomsSelected.length
-    ) {
+    if (this.state.roomsAvailableNr.includes(value)) {
       if (value === this.state.roomSelected) {
         this.setState({
           roomSelected: null
@@ -54,8 +52,6 @@ class RoomMap extends React.Component {
           }
         );
       }
-    } else {
-      alert("nie mozna");
     }
   }
 
@@ -70,27 +66,29 @@ class RoomMap extends React.Component {
       : "";
   }
 
-  handleAddRoom = () => {
-    if (!this.state.roomsSelected.includes(this.state.roomSelected)) {
+  handleAddRemoveRoom(room) {
+    if (this.state.roomsSelected.includes(room)) {
+      let array = [...this.state.roomsSelected];
+      let index = array.indexOf(room);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState(
+          { roomsSelected: array, bookingButton: true },
+          this.props.callbackMap(this.state.roomsSelected, true)
+        );
+      }
+    } else {
       this.setState(prevState => ({
         roomsSelected: [...prevState.roomsSelected, this.state.roomSelected]
       }));
     }
-  };
-
-  handleRemoveRoom(value) {
-    let array = [...this.state.roomsSelected];
-    let index = array.indexOf(value);
-    if (index !== -1) {
-      array.splice(index, 1);
-      this.setState(
-        { roomsSelected: array },
-        this.props.callbackMap(this.state.roomsSelected, true)
-      );
-    }
+    console.log(this.state.roomsSelected);
   }
 
   handleNextStage = () => {
+    this.setState(prevState => ({
+      bookingButton: !prevState.bookingButton
+    }));
     this.props.callbackMap(this.state.roomsSelected, false);
   };
 
@@ -119,9 +117,9 @@ class RoomMap extends React.Component {
       let arr = [];
       for (let i = 0; i < 5; i++) {
         if (i < stars) {
-          arr.push(<div className="star star-full" />);
+          arr.push(<div key={i} className="star star-full" />);
         } else {
-          arr.push(<div className="star star-empty" />);
+          arr.push(<div key={i} className="star star-empty" />);
         }
       }
       return arr;
@@ -141,17 +139,20 @@ class RoomMap extends React.Component {
     return arr;
   }
 
-  renderChosenRoom() {
+  /*renderChosenRoom() {
     let roomRemove = [];
-    if(this.state.roomsSelected.length !== 0){
-      roomRemove.push(<h3>Wybrane pokoje:</h3>)
+    if (this.state.roomsSelected.length !== 0) {
+      roomRemove.push(<h3>Wybrane pokoje:</h3>);
     }
     for (let room in this.state.roomsSelected) {
       roomRemove.push(
-        <div className="rooms-chosen-single d-flex align-items-center" key={room}>
+        <div
+          className="rooms-chosen-single d-flex align-items-center"
+          key={room}
+        >
           {"Pokój nr " + this.state.roomsSelected[room]}{" "}
           <div
-           className="rooms-chosen-single-img"
+            className="rooms-chosen-single-img"
             onClick={() =>
               this.handleRemoveRoom(this.state.roomsSelected[room])
             }
@@ -160,7 +161,7 @@ class RoomMap extends React.Component {
       );
     }
     return roomRemove;
-  }
+  }*/
 
   renderRoom() {
     let room = this.state.roomsAvailable.find(
@@ -169,7 +170,7 @@ class RoomMap extends React.Component {
 
     if (room !== undefined) {
       return (
-        <div className=" room-box col-lg-5">
+        <div className=" room-box col-sm-8 col-lg-5">
           <div className="room-photo">
             <img
               src={require("./img/" + room.photoUrl)}
@@ -178,10 +179,23 @@ class RoomMap extends React.Component {
             />
           </div>
           <div className="room-info">
-            <h2>Pokój {room.room_nr}</h2>
-            <br />
+            <div className="room-info-in d-flex justify-content-between align-items-center">
+              <h2>Pokój {room.room_nr}</h2>
+              <button
+                className="btn btn-secondary"
+                disabled={
+                  !(this.state.roomsAmount > this.state.roomsSelected.length) &&
+                  !this.state.roomsSelected.includes(room.room_nr)
+                }
+                onClick={() => this.handleAddRemoveRoom(room.room_nr)}
+              >
+                {!this.state.roomsSelected.includes(room.room_nr)
+                  ? "DODAJ POKÓJ"
+                  : "USUŃ POKÓJ"}
+              </button>
+            </div>
+
             {" " + room.description}
-            <br />
           </div>
           <div className="opinions-container">{this.renderOpinion()}</div>
         </div>
@@ -192,8 +206,8 @@ class RoomMap extends React.Component {
   render() {
     return (
       <>
-        <div className=" row justify-content-md-center">
-          <div id="svg-map" className="col-lg-5 mr-lg-5">
+        <div className=" row justify-content-sm-center">
+          <div id="svg-map" className="col-sm-6 col-lg-4 mr-lg-5 mb-sm-5">
             <svg
               id="map"
               data-name="map"
@@ -845,30 +859,16 @@ class RoomMap extends React.Component {
                 />
               </g>
             </svg>
-            <div class="r-768"/>
+            <div className="r-768" />
           </div>
           {this.renderRoom()}
         </div>
-        <div className="r"/>
-        <div className="row justify-content-center">
-          <div className="col-log-10 rooms-chosen-container d-flex flex-column  align-items-center pt-3">
-            {this.renderChosenRoom()}
-          </div>
-        </div>
-        <div className="r"/>
-        <div className="row justify-content-center">
-          <div className="col-lg-5 d-flex justify-content-center">
+        <div className="r" />
+        {this.state.bookingButton ? (
+          <div className="row justify-content-center">
+            <div className="col-sm-8 col-lg-4 d-flex justify-content-center">
               <button
-                className="btn btn-secondary mr-3"
-                disabled={
-                  this.state.roomsSelected.length >= this.state.roomsAmount
-                }
-                onClick={this.handleAddRoom}
-              >
-                DODAJ POKÓJ
-              </button>
-              <button
-                className="btn btn-secondary"
+                className="button-booking"
                 disabled={
                   this.state.roomsSelected.length < this.state.roomsAmount
                 }
@@ -878,6 +878,7 @@ class RoomMap extends React.Component {
               </button>
             </div>
           </div>
+        ) : null}
       </>
     );
   }

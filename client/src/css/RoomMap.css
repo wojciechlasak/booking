@@ -1,27 +1,4 @@
 
-
-.room-box{
-  padding:20px;
-  background-color:#313131;
-  color:#fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.room-info{
-  padding:1em;
-}
-
-.room-info > div{
-  display: inline;
-}
-
-.opinions-container{
-  padding:1em;
-}
-
 .cls-1,
 .cls-13 {
   fill: #fff;
@@ -114,7 +91,40 @@
 }
 
 .selected rect, .selected polyline{
-  fill:#ccc2b8
+  fill:#e4c4a5
+}
+
+.room-box{
+  background-color:#313131;
+  color:#fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+
+.room-info{
+  padding:1em;
+  width:100%;
+}
+
+.room-info-in{
+  padding-bottom:0.5em;
+}
+
+.room-info-in h2{
+  font-size:1.62em;
+  margin:0;
+}
+
+.room-info > div{
+  display: inline;
+}
+
+.opinions-container{
+  padding:1em;
+  width:100%;
 }
 
 .rooms-chosen-container{
@@ -163,4 +173,26 @@
 
 .star-empty{
   background-image: url("../img/star.png");
+}
+
+
+.button-booking{
+  padding:0.25em 1em;
+  margin-bottom:2em;
+  background-color:rgb(136, 44, 44);
+  color:#fff;
+  font-size:1.62em;
+  border:none;
+  border-radius: 10px;
+  transition:.3s;
+  cursor: pointer;
+}
+
+.button-booking:disabled{
+  background-color:rgb(138, 103, 103);
+  cursor: default;
+}
+
+.button-booking:hover:enabled{
+  background-color:rgb(129, 26, 26);
 }
