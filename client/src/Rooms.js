@@ -20,7 +20,6 @@ class Rooms extends React.Component {
       method: "GET"
     })
       .then(data => {
-        console.log(data);
         this.setState({
           rooms: data
         });
@@ -77,7 +76,7 @@ class Rooms extends React.Component {
               Cena niska:{" "}
               <ContentEditable
                 innerRef={this.contentEditable}
-                html={room.priceLow}
+                html={String(room.priceLow)}
                 onChange={this.handleChange}
                 className="room-edit"
                 tagName="span"
@@ -88,7 +87,7 @@ class Rooms extends React.Component {
               Cena średnia:{" "}
               <ContentEditable
                 innerRef={this.contentEditable}
-                html={room.priceMedium}
+                html={String(room.priceMedium)}
                 onChange={this.handleChange}
                 className="room-edit"
                 tagName="span"
@@ -99,7 +98,7 @@ class Rooms extends React.Component {
               Cena wysoka:{" "}
               <ContentEditable
                 innerRef={this.contentEditable}
-                html={room.priceHigh}
+                html={String(room.priceHigh)}
                 onChange={this.handleChange}
                 className="room-edit"
                 tagName="span"
@@ -110,7 +109,7 @@ class Rooms extends React.Component {
               Maksymalna ilość osób:{" "}
               <ContentEditable
                 innerRef={this.contentEditable}
-                html={room.peopleMax}
+                html={String(room.peopleMax)}
                 onChange={this.handleChange}
                 className="room-edit"
                 tagName="span"
