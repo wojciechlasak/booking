@@ -182,7 +182,7 @@ class ClientSelect extends React.Component {
 
   render() {
     return (
-      <div className="row justify-content-end">
+      <div className="row justify-content-lg-end justify-content-sm-center">
         <div
           onMouseLeave={this.handlePeopleMouseLeave}
           className="col-sm-4 d-flex flex-column"
