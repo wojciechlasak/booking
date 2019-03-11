@@ -1,3 +1,8 @@
+#login-container{
+    background: url("../img/low_contrast_linen.png");
+  min-height: 100vh;
+}
+
 .Login{
     max-width: 400px;
     margin: 0 auto;
