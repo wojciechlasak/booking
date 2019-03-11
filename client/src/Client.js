@@ -69,14 +69,14 @@ class Client extends React.Component {
       <div id="client" ref={this.topRef}>
         <div id="top">
           <div className="container">
-            <div className="row justify-content-end">
-              <div className="col-lg-8 text-right">
+            <div className="row justify-content-lg-end justify-content-sm-center">
+              <div className="col-sm-10 col-lg-8 text-right">
                 <div className="r" />
                 <Calendar callback={this.getDate} />
               </div>
             </div>
-            <div className="row justify-content-end">
-              <div className="col-lg-8 text-right">
+            <div className="row justify-content-lg-end">
+              <div className="col-lg-8">
                 <div className="r" />
                 <ClientSelect
                   callbackSelect={this.getSelect}
@@ -97,16 +97,17 @@ class Client extends React.Component {
               roomsAvailable={this.state.roomsAvailable}
               callbackMap={this.getMap}
             />
-            <div className="r"/>
           </div>
         ) : null}
         {!this.state.hideForm ? (
-          <ClientForm
-            roomsChose={this.state.roomsChose}
-            peopleAmount={this.state.peopleAmount}
-            dateFrom={this.state.from}
-            dateTo={this.state.to}
-          />
+          <div id="client-summary">
+            <ClientForm
+              roomsChose={this.state.roomsChose}
+              peopleAmount={this.state.peopleAmount}
+              dateFrom={this.state.from}
+              dateTo={this.state.to}
+            />
+          </div>
         ) : null}
       </div>
     );
