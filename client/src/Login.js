@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 
 import "./css/Login.css";
-import AuthHelperMethods from './components/AuthHelperMethods';
+import AuthHelperMethods from "./components/AuthHelperMethods";
 
 class Login extends React.Component {
   constructor() {
@@ -20,50 +20,51 @@ class Login extends React.Component {
   };
 
   /*after submit post into login*/
-  handleFormSubmit = (e) => {
+  handleFormSubmit = e => {
     e.preventDefault();
     this.Auth.login(this.state.nick, this.state.password)
-        .then(res => {
-            if (res === false) {
-                return alert("Sorry those credentials don't exist!");
-            }
-            this.props.history.replace('/admin');
-        })
-        .catch(err => {
-            console.log(err);
-            alert(err);
-        })
-}
+      .then(res => {
+        if (res === false) {
+          return alert("Sorry those credentials don't exist!");
+        }
+        this.props.history.replace("/admin");
+      })
+      .catch(err => {
+        console.log(err);
+        alert(err);
+      });
+  };
 
-componentWillMount() {
+  componentWillMount() {
     /* redirect if someone is logged in */
-    if (this.Auth.loggedIn())
-        this.props.history.replace('/admin');
-}
+    if (this.Auth.loggedIn()) this.props.history.replace("/admin");
+  }
 
   render() {
     return (
-      <div className="Login">
-        <Form onSubmit={this.handleFormSubmit}>
-          <FormGroup >
-            <Input
-              autoFocus
-              type="text"
-              name="nick"
-              placeholder="Nazwa użytkownika"
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              name="password"
-              type="password"
-              placeholder="Hasło"
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <Button type="submit">Zaloguj się</Button>
-        </Form>
+      <div id="login-container">
+        <div className="Login">
+          <Form onSubmit={this.handleFormSubmit}>
+            <FormGroup>
+              <Input
+                autoFocus
+                type="text"
+                name="nick"
+                placeholder="Nazwa użytkownika"
+                onChange={this.onChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                name="password"
+                type="password"
+                placeholder="Hasło"
+                onChange={this.onChange}
+              />
+            </FormGroup>
+            <Button type="submit">Zaloguj się</Button>
+          </Form>
+        </div>
       </div>
     );
   }
