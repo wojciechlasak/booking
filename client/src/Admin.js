@@ -7,6 +7,8 @@ import Clients from "./Clients.js";
 import Opinions from "./Opinions.js";
 import Rooms from "./Rooms.js";
 
+import "./css/Admin.css";
+
 import AuthHelperMethods from "./components/AuthHelperMethods";
 
 //Our higher order component
@@ -18,7 +20,8 @@ class Admin extends React.Component {
     this.state = {
       from : null,
       to: null,
-      component: null
+      component: null,
+      burgerClick: true
     };
     
   }
@@ -66,30 +69,47 @@ class Admin extends React.Component {
     }
   }
 
+  handleBurgerClick = () => {
+    this.setState(prevState => ({
+      burgerClick: !prevState.burgerClick
+    }));
+  }
+
   //Render the protected component
   render() {
     return (
-      <div>
-        <nav>
-          <button value="clients" onClick={this.componentChange}>
+      <div id="admin-container">
+        <div id="burger" className={this.state.burgerClick?"nav-show":""} onClick={this.handleBurgerClick}>
+          <svg viewBox="0 0 100 100">
+              <path d="M 10 20 L 90 20"/>
+              <path d="M 10 50 L 90 50"/>
+              <path d="M 10 80 L 90 80"/>
+          </svg>
+        </div>
+        <nav id="admin-nav" className={this.state.burgerClick?"nav-show":""}>
+          <button value="clients" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
             Przegląd klientów
           </button>
-          <button value="addReservations" onClick={this.componentChange}>
+          <button value="addReservations" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
             Dodaj rezerwacje
           </button>
-          <button value="opinions" onClick={this.componentChange}>
+          <button value="opinions" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
             Przegląd Opinii
           </button>
-          <button value="reservations" onClick={this.componentChange}>
+          <button value="reservations" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
             Przegląd rezerwacji
           </button>
-          <button value="rooms" onClick={this.componentChange}>
+          <button value="rooms" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
             Przegląd pokoi
           </button>
           <button onClick={this._handleLogout}>LOGOUT</button>
         </nav>
-        {this.componentRender()}
+        <div className="d-flex flex-column align-items-center">
+          <div className="r"/>
+          {this.componentRender()}
+        </div>
       </div>
+
     );
   }
 }

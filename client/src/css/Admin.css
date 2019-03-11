@@ -1,0 +1,72 @@
+#admin-container{
+  background: url("../img/low_contrast_linen.png");
+  min-height: 100vh;
+}
+
+#admin-nav{
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:-100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
+    width:20em;
+    background-color:#ccc;
+    transition: 0.5s ease-in-out;
+    z-index: 100;
+}
+
+#admin-nav button{
+    padding:0.75em;
+    margin:0.5em 0.5em;
+    width:10em;
+    cursor: pointer;
+}
+
+#admin-nav.nav-show{
+    left:0;
+}
+
+#burger {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    cursor: pointer;
+    z-index: 101;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+#burger svg {
+    display: block;
+  }
+  #burger path {
+    stroke-width: 10;
+    stroke: #000;
+    fill: none;
+    transition: 0.3s;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  #burger.nav-show path {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  #burger.nav-show path:nth-child(1) {
+    -webkit-transform: rotate(45deg) translate(0, 30px);
+    -moz-transform: rotate(45deg) translate(0, 30px);
+    -o-transform: rotate(45deg) translate(0, 30px);
+    transform: rotate(45deg) translate(0, 30px);
+  }
+  #burger.nav-show path:nth-child(3) {
+    -webkit-transform: rotate(-45deg) translate(0, -30px);
+    -moz-transform: rotate(-45deg) translate(0, -30px);
+    -o-transform: rotate(-45deg) translate(0, -30px);
+    transform: rotate(-45deg) translate(0, -30px);
+  }
