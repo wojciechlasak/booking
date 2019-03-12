@@ -56,7 +56,6 @@ class CalendarAdmin extends React.Component {
           return e;
         });
         this.setState({ reservations: data });
-        console.log(data);
       })
       .catch(err => {
         console.log("caught it!", err);
@@ -69,28 +68,22 @@ class CalendarAdmin extends React.Component {
     return result;
   }
 
+
   render() {
     return (
       <div className="calendar-container">
         <DayPicker
-          className={"client"}
+          className={"admin client"}
           numberOfMonths={this.props.numberOfMonths}
-          selectedDays={[
-            new Date(2019, 2, 12),
-            new Date(2019, 2, 2),
+          selectedDays={
             this.state.reservations
-              ? {
-                  after: this.addDays(this.state.reservations[0].dateFrom, -1),
-                  before: this.addDays(this.state.reservations[0].dateTo, 1)
-                }
-              : null,
-            this.state.reservations
-              ? {
-                  after: this.addDays(this.state.reservations[1].dateFrom, -1),
-                  before: this.addDays(this.state.reservations[1].dateTo, 1)
-                }
+              ? this.state.reservations.map((value)=>{
+                return {
+                  after: this.addDays(value.dateFrom, -1),
+                  before: this.addDays(value.dateTo, 1)
+                }})
               : null
-          ]}
+          }
           locale="pl"
           months={MONTHS}
           weekdaysLong={WEEKDAYS_LONG}
