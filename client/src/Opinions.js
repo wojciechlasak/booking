@@ -26,24 +26,24 @@ class Opinions extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container d-flex justify-content-center align-items-center">
         <table>
           <thead>
             <tr>
               <th>ID</th>
-              <th>Stars</th>
-              <th>Content</th>
-              <th>Reservation ID</th>
+              <th>Gwiazdki</th>
+              <th>Treść</th>
+              <th>Kod rezerwacji</th>
             </tr>
           </thead>
           <tbody>
             {this.state.opinions.map(function(opinion) {
               return (
                 <tr key={opinion.id}>
-                  <td>{opinion.opinion_id}</td>
-                  <td>{opinion.stars}</td>
-                  <td>{opinion.content}</td>
-                  <td>{opinion.reservation_id}</td>
+                  <td class="opinion-td">{opinion.opinion_id}</td>
+                  <td class="opinion-td">{opinion.stars}</td>
+                  <td class="opinion-td">{opinion.content}</td>
+                  <td class="opinion-td">{opinion.reservation_id}</td>
                 </tr>
               );
             })}

@@ -49,8 +49,7 @@ class Clients extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.updateKlient}>Update first data</button>
+      <div className="container d-flex justify-content-center align-items-center">
         <table>
           <thead>
             <tr>
@@ -64,12 +63,12 @@ class Clients extends React.Component {
           <tbody>
             {this.state.users.map(function(user) {
               return (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.surname}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone}</td>
+                <tr key={user.client_id}>
+                  <td class="client-td">{user.client_id}</td>
+                  <td class="client-td">{user.name}</td>
+                  <td class="client-td">{user.surname}</td>
+                  <td class="client-td">{user.email}</td>
+                  <td class="client-td">{user.phone}</td>
                 </tr>
               );
             })}

@@ -70,3 +70,106 @@
     -o-transform: rotate(-45deg) translate(0, -30px);
     transform: rotate(-45deg) translate(0, -30px);
   }
+
+
+  thead {
+    background-color: #161616;
+    color:#fff;
+    text-align:center;
+  }
+  
+  th {
+    font-size: 1em;
+    padding: 10px 20px;
+    border-left: 1px solid #c56913;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    transition: 0.2s;
+  }
+  
+  
+  th:nth-child(1) {
+    border-left: none;
+  }
+  
+  tbody {
+    vertical-align: middle;
+    text-align: center;
+    background-color: #2f2f2f;
+    color:#cac9c9;
+  }
+  
+  td {
+    padding: 5px 10px;
+  }
+  
+  @media only screen and (max-width: 850px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+    }
+  
+    table {
+      width: 100%;
+      text-align: center;
+      border-collapse: collapse;
+    }
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    tr {
+      border: 1px solid #7a7a7a;
+    }
+  
+    td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #8f8f8f;
+      position: relative;
+      padding-left: 50%;
+    }
+  
+    td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 6px;
+      left: 6px;
+      width: 60%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+  
+    /* Zebra striping */
+    tr:nth-of-type(odd) {
+      background: #696969;
+    }
+    th {
+      background: #333;
+      color: white;
+      font-weight: bold;
+    }
+  
+    td:nth-of-type(1).client-td:before { content: "ID:"; }
+    td:nth-of-type(2).client-td:before { content: "Imię:"; }
+    td:nth-of-type(3).client-td:before { content: "Nazwisko:"; }
+    td:nth-of-type(4).client-td:before { content: "Email:"; }
+    td:nth-of-type(5).client-td:before { content: "Telefon:"; }
+
+    td:nth-of-type(1).opinion-td:before { content: "ID:"; }
+    td:nth-of-type(2).opinion-td:before { content: "Gwiazdki:"; }
+    td:nth-of-type(3).opinion-td:before { content: "Treść:"; }
+    td:nth-of-type(4).opinion-td:before { content: "Kod rezerwacji:"; }
+  
+  }
