@@ -89,6 +89,7 @@
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   background-color: #deaf59;
   color: #fff;
+  cursor: pointer;
 }
 
 .client
@@ -110,7 +111,29 @@
 
 /*admin calendaer*/
 
-.admin .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside){
+.admin
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
   background-color: #deaf59;
   color: #fff;
 }
+
+.admin
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after{
+  content:"zajete";
+  position: absolute;
+padding:0.5em;
+top:50%;
+left:50%;
+color:#4c3b2d;
+background-color: #e7e1da;
+opacity:0;
+transition:0.3s;
+z-index:2;
+}
+
+.admin
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after  {
+
+opacity:1;
+
+  }
