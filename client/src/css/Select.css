@@ -9,12 +9,6 @@
   text-align: left;
   width: 100%;
 }
-.client-select-room {
-  -moz-appearance: none; /* Firefox */
-  -webkit-appearance: none; /* Safari and Chrome */
-  appearance: none;
-}
-
 .client-select-person {
   position: relative;
   background-color: #fff;
@@ -23,7 +17,14 @@
   transition: 0.5s;
 }
 
-.client-select-person-arrow {
+.client-select-room{
+  position: relative;
+  background-color: #fff;
+  min-height: 3em;
+  transition: 0.5s;
+}
+
+.client-select-arrow {
   position: absolute;
   cursor: pointer;
   right: 0.5em;
@@ -63,7 +64,8 @@
   transition: 0.5s;
 }
 
-.client-select-person input {
+.client-select-person input,
+.client-select-room input {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -74,10 +76,9 @@
   clip: rect(0, 0, 0, 0);
 }
 
-.icon-gray{
-  opacity:0.3;
+.icon-gray {
+  opacity: 0.3;
 }
-
 
 .client-select-person input label.icon-gray:hover {
   opacity: 1;
@@ -108,9 +109,16 @@
   opacity: 1;
 }
 
+.client-select-room label{
+  width:100%;
+  background-color:#fff;
+  padding:0.25em 2em 0.25em 0.5em;
+  transition:0.5s;
+  cursor: pointer;
+  margin-bottom:0;
+}
 
-
-select {
-  min-height: 3em;
-  padding: 0.5em 2em 0.5em 0.5em;
+.client-select-room  label:hover,
+.client-select-room input[type="radio"]:checked + label{
+  background-color:#deaf59;
 }

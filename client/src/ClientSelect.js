@@ -13,7 +13,9 @@ class ClientSelect extends React.Component {
       peopleMax: null,
       rooms: null,
       peopleAmount: null,
-      peopleOpen: false
+      roomSelected: null,
+      peopleOpen: false,
+      roomOpen: false
     };
   }
 
@@ -91,12 +93,12 @@ class ClientSelect extends React.Component {
             type="radio"
             name="person"
             key={i}
-            id={i}
+            id={`person${i}`}
             onChange={this.handlePeopleChange}
           />
           <label
             className={this.state.peopleAmount !== null ? "" : "icon-gray"}
-            htmlFor={i}
+            htmlFor={`person${i}`}
           />
         </>
       );
@@ -117,13 +119,22 @@ class ClientSelect extends React.Component {
       );
       for (let i in rooms) {
         arr.push(
-          <option key={i} value={rooms[i]}>
-            {rooms[i] === 1
-              ? rooms[i] + " pokój"
-              : rooms[i] <= 4
-              ? rooms[i] + " pokoje"
-              : rooms[i] + " pokoi"}
-          </option>
+          <>
+            <input
+              type="radio"
+              name="room"
+              key={i}
+              id={`room${i}`}
+              onChange={this.handleRoomChange}
+            />
+            <label htmlFor={`room${i}`}>
+              {rooms[i] === 1
+                ? rooms[i] + " pokój"
+                : rooms[i] <= 4
+                ? rooms[i] + " pokoje"
+                : rooms[i] + " pokoi"}
+            </label>
+          </>
         );
       }
     }
@@ -160,18 +171,39 @@ class ClientSelect extends React.Component {
   handlePeopleChange = e => {
     this.setState(
       {
-        peopleAmount: e.target.id,
+        peopleAmount: Number(e.target.id.substr(e.target.id.length - 1)),
         peopleOpen: false,
         peopleSelect: true
       },
       this.sendCallback(null, true)
     );
   };
-  handleRoomsChange = e => {
-    this.sendCallback(e.target.value, e.target.value !== "" ? false : true);
+
+  handleRoomClick = () => {
+    this.setState(prevState => ({
+      roomOpen: !prevState.roomOpen
+    }));
   };
 
-  sendCallback(value, hide) {
+  handleRoomMouseLeave = () => {
+    this.setState({
+      roomOpen: false
+    });
+  };
+
+  handleRoomChange = e => {
+    console.log(Number(e.target.id.substr(e.target.id.length - 1)))
+    this.setState(
+      {
+        roomSelected: Number(e.target.id.substr(e.target.id.length - 1))+1,
+        roomOpen: false,
+        peopleSelect: true
+      },
+      this.sendCallback( Number(e.target.id.substr(e.target.id.length - 1))+1,false)
+    );
+  };
+
+  sendCallback( value, hide) {
     this.props.callbackSelect(
       this.state.peopleAmount,
       this.state.rooms,
@@ -195,7 +227,7 @@ class ClientSelect extends React.Component {
             {this.generatePeopleIcon()}
             <div
               className={
-                "client-select-person-arrow" +
+                "client-select-arrow" +
                 (this.state.peopleOpen ? " rotate-90" : "")
               }
             />
@@ -210,15 +242,38 @@ class ClientSelect extends React.Component {
             {this.generatePeople()}
           </div>
         </div>
-        <div className="sm-ml-3 col-sm-4 d-flex flex-column">
-          <div className="client-select-title">Ilość pokoi:</div>
-          <select
-            onChange={this.handleRoomsChange}
-            className="client-select-room"
+        <div
+          onMouseLeave={this.handleRoomMouseLeave}
+          className=" sm-ml-3 col-sm-4 d-flex flex-column"
+        >
+          <div className="client-select-title">Ilość osób:</div>
+          <div
+            onClick={this.handleRoomClick}
+            className="client-select-room d-flex flex-row flex-wrap justify-content-start pl-2 pt-2"
           >
-            <option value="" />
+            {this.state.roomSelected === null
+              ? ""
+              : this.state.roomSelected === 1
+              ? this.state.roomSelected + " pokój"
+              : this.state.roomSelected <= 4
+              ? this.state.roomSelected + " pokoje"
+              : this.state.roomSelected + " pokoi"}
+            <div
+              className={
+                "client-select-arrow" +
+                (this.state.roomOpen ? " rotate-90" : "")
+              }
+            />
+          </div>
+
+          <div
+            className={
+              "client-select-room border-top border-secondary d-flex flex-column justify-content-start" +
+              (this.state.roomOpen ? " show" : " hidden")
+            }
+          >
             {this.generateRooms()}
-          </select>
+          </div>
         </div>
       </div>
     );
