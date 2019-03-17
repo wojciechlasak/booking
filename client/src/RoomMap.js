@@ -182,16 +182,18 @@ class RoomMap extends React.Component {
             <div className="room-info-in d-flex justify-content-between align-items-center">
               <h2>Pokój {room.room_nr}</h2>
               <button
-                className="btn btn-secondary"
+                className="button-add"
                 disabled={
                   !(this.state.roomsAmount > this.state.roomsSelected.length) &&
                   !this.state.roomsSelected.includes(room.room_nr)
                 }
                 onClick={() => this.handleAddRemoveRoom(room.room_nr)}
               >
+                <div className="d-flex justify-content-center align-items-center">
                 {!this.state.roomsSelected.includes(room.room_nr)
-                  ? "DODAJ POKÓJ"
-                  : "USUŃ POKÓJ"}
+                  ? <><div className="button-icon button-plus"></div>DODAJ POKÓJ</>
+                  : <><div className="button-icon button-x"></div>USUŃ POKÓJ</>}
+                </div>
               </button>
             </div>
 
