@@ -124,10 +124,11 @@ class ClientSelect extends React.Component {
               type="radio"
               name="room"
               key={i}
-              id={`room${i}`}
+              id={`room${rooms[i]}`}
               onChange={this.handleRoomChange}
+              checked={this.state.roomSelected!==null && this.state.roomSelected===rooms[i]}
             />
-            <label htmlFor={`room${i}`}>
+            <label htmlFor={`room${rooms[i]}`}>
               {rooms[i] === 1
                 ? rooms[i] + " pokój"
                 : rooms[i] <= 4
@@ -171,9 +172,10 @@ class ClientSelect extends React.Component {
   handlePeopleChange = e => {
     this.setState(
       {
-        peopleAmount: Number(e.target.id.substr(e.target.id.length - 1)),
+        peopleAmount: Number(e.target.id.replace( /^\D+/g, '')),
         peopleOpen: false,
-        peopleSelect: true
+        peopleSelect: true,
+        roomSelected: null
       },
       this.sendCallback(null, true)
     );
@@ -192,14 +194,13 @@ class ClientSelect extends React.Component {
   };
 
   handleRoomChange = e => {
-    console.log(Number(e.target.id.substr(e.target.id.length - 1)))
     this.setState(
       {
-        roomSelected: Number(e.target.id.substr(e.target.id.length - 1))+1,
+        roomSelected: Number(e.target.id.replace( /^\D+/g, '')),
         roomOpen: false,
         peopleSelect: true
       },
-      this.sendCallback( Number(e.target.id.substr(e.target.id.length - 1))+1,false)
+      this.sendCallback( Number(e.target.id.replace( /^\D+/g, '')),false)
     );
   };
 
