@@ -10,3 +10,49 @@
 #client{
     background: url("../img/low_contrast_linen.png"); /* Background pattern from Toptal Subtle Patterns */
 }
+
+.code-nav-single {
+    position: fixed;
+  top: 1em;
+  left: 1em;
+  z-index: 100;
+    background-color: #546060;
+    border-radius: 40px;
+    padding: 1em 1em;
+    margin: 0.25em 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 3.5em;
+    border: none;
+    height:auto;
+  }
+  
+  .code-nav-single:hover span {
+    display: block;
+  }
+  
+  .code-nav-single:hover {
+    border-radius: 25px;
+    padding: 1em 1em;
+    width: auto;
+  }
+  
+  .code-nav-single span {
+    color: #a3aaaa;
+    font-size: 0.9em;
+    margin-right: 1.5em;
+    display: none;
+    transition: 0.3s;
+  }
+  
+  .code-nav-icon {
+    position: relative;
+    background-image: url("../img/plus.svg");
+    background-image: url("../img/ludzik.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+  }
