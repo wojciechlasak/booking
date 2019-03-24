@@ -4,12 +4,19 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+//login
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
 const exjwt = require("express-jwt");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
+//mail
+var postfix = require("postfix");
+var nodemailer = require("nodemailer");
+var name = postfix("@gmail.com");
+
+//routes
 var indexRouter = require("./routes/index");
 var clientRouter = require("./routes/clients");
 var roomRouter = require("./routes/rooms");
@@ -27,7 +34,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
-
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-type,Authorization");
@@ -50,10 +56,14 @@ passport.use(
     },
     function(nick, password, done) {
       if (nick === "admin") {
-        if(bcrypt.compareSync(password,"$2b$12$UbeX6QZDc6tCf.kh8sNiNu8K48FKaFc.P8K.CYIyF7A51wpd.xCxS")){
+        if (
+          bcrypt.compareSync(
+            password,
+            "$2b$12$UbeX6QZDc6tCf.kh8sNiNu8K48FKaFc.P8K.CYIyF7A51wpd.xCxS"
+          )
+        ) {
           return done(null, { name: "admin", id: "1234" });
-        }
-        else{
+        } else {
           return done(null, false, { message: "Incorrect pass." });
         }
       } else {
@@ -82,6 +92,46 @@ app.post("/login", async (req, res, next) => {
       });
     });
   })(req, res, next);
+});
+
+//mail
+app.post("/send", (req, res) => {
+  var transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+      ciphers: "SSLv3"
+    },
+    auth: {
+      user: "wojciech.lasak@outlook.com",
+      pass: ""//password here
+    }
+  });
+  const output = `
+  Dzień dobry ${req.body[0].name}&nbsp;${req.body[0].surname},<br><br>
+  Przed chwilą dokonałeś rezerwacji pokoju w terminie od <b>${req.body[1].dateFrom.slice(0,10)}</b> do <b>${req.body[1].dateTo.slice(0,10)}</b><br>
+  Twój kod rezerwacji to <b>${req.body[1].id}</b><br><br>
+  W razie jakichkolwiek pytań odpowiedz na tego maila. 
+  `;
+
+  // setup email data with unicode symbols
+  let mailOptions = {
+    from: "<wojciech.lasak@outlook.com>", // sender address
+    to: "wojtekl62699@gmail.com", // list of receivers
+    subject: "Rezerwacja",
+    text: "Hello world?", // plain text body
+    html: output
+  };
+
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log("Message sent: %s", info.messageId);
+    res.send(JSON.stringify(200));
+  });
 });
 
 // catch 404 and forward to error handler

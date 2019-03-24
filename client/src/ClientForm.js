@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 
 import "./css/Login.css";
+import "./css/ClientForm.css";
 
 class ClientForm extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class ClientForm extends React.Component {
 
   getInitialState() {
     return {
-      name:  null,
+      name: null,
       surname: null,
       email: null,
       phone: null,
@@ -46,15 +47,15 @@ class ClientForm extends React.Component {
       return code;
     }
     async function checkCode(code) {
-        try{
-            const response = await fetch(`/reservations/reservation/${code}`, { method: "GET" });
-            const check = await !response.json().length ? false : true;
-            return check;
-        }
-        catch(err) {
-            console.log("caught it!", err);
-        }
-       
+      try {
+        const response = await fetch(`/reservations/reservation/${code}`, {
+          method: "GET"
+        });
+        const check = (await !response.json().length) ? false : true;
+        return check;
+      } catch (err) {
+        console.log("caught it!", err);
+      }
     }
     let code;
     do {
@@ -72,7 +73,7 @@ class ClientForm extends React.Component {
     this.setState({
       [e.target.id]: e.target.value
     });
-  }
+  };
 
   handleSubmit = () => {
     var client = {
@@ -113,64 +114,82 @@ class ClientForm extends React.Component {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reservation)
-          })
-            .then(function(response) {
-              if (response.status >= 400) {
-                throw new Error("Bad response from server");
-              }
-              return response.json();
-            })
+          }).then(function(response) {
+            if (response.status >= 400) {
+              throw new Error("Bad response from server");
+            }
+            return response.status;
+          });
         }
+      })
+      .then(() => {
+        fetch("/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify([client, reservation])
+        }).then(response => {
+          if (response.status >= 400) {
+            throw new Error("Bad response from server");
+          }
+          return this.props.callbackClientForm();
+        });
       })
       .catch(err => {
         console.log("caught it!", err);
       });
-  }
+  };
 
   render() {
     return (
-      <div>
-        <Form method="post" className="Login" onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Input
-              autoFocus
-              type="text"
-              placeholder="Imię"
-              id="name"
-              value={this.state.name || ""}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              type="text"
-              placeholder="Nazwisko"
-              id="surname"
-              value={this.state.surname || ""}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              type="email"
-              placeholder="Email"
-              id="email"
-              value={this.state.email || ""}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Input
-              type="text"
-              placeholder="Telefon"
-              id="phone"
-              value={this.state.phone || ""}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
+      <div className=" row justify-content-sm-center">
+        <div className="reservation-summary-conatiner col-sm-8 col-lg-4 mr-lg-5">
+          {this.state.dateFrom}&nbsp;{this.state.dateTo}<br/>
+          {this.state.peopleAmount}<br/>
+          {this.state.roomsChose}<br/>
+        </div>
+        <div className="col-sm-8 col-lg-4 mr-lg-5 mb-sm-5">
+          <Form method="post" className="Login" onSubmit={this.handleSubmit}>
+            <FormGroup>
+              <Input
+                autoFocus
+                type="text"
+                placeholder="Imię"
+                id="name"
+                value={this.state.name || ""}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="text"
+                placeholder="Nazwisko"
+                id="surname"
+                value={this.state.surname || ""}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="email"
+                placeholder="Email"
+                id="email"
+                value={this.state.email || ""}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="text"
+                placeholder="Telefon"
+                id="phone"
+                value={this.state.phone || ""}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
 
-          <Button onClick={this.handleSubmit}>Wyślij</Button>
-        </Form>
+            <Button onClick={this.handleSubmit}>Wyślij</Button>
+          </Form>
+        </div>
       </div>
     );
   }
