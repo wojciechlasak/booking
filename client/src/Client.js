@@ -4,13 +4,19 @@ import Calendar from "./Calendar.js";
 import ClientForm from "./ClientForm.js";
 import ClientSelect from "./ClientSelect.js";
 import RoomMap from "./RoomMap.js";
+import CheckCode from "./CheckCode.js";
 
 import "./css/Client.css";
 
 class Client extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.getInitialState();
+    this.mapRef = React.createRef();
+    this.topRef = React.createRef();
+  }
+  getInitialState() {
+    return {
       from: null,
       to: null,
       hideMap: true,
@@ -18,11 +24,11 @@ class Client extends React.Component {
       peopleAmount: null,
       roomsAvailable: null,
       roomsAmount: null,
-      roomsChose: null
+      roomsChose: null,
+      checkReservation: false
     };
-    this.mapRef = React.createRef()
-    this.topRef = React.createRef()
   }
+
   getDate = (param1, param2, hide) => {
     this.setState({
       from: param1,
@@ -33,40 +39,62 @@ class Client extends React.Component {
   };
 
   getSelect = (param1, param2, param3, hide) => {
-    this.setState({
-      peopleAmount: param1,
-      roomsAvailable: param2,
-      roomsAmount: param3,
-      hideMap: hide,
-      hideForm: true
-    },
-      ()=> {
-        if(!hide){
+    this.setState(
+      {
+        peopleAmount: param1,
+        roomsAvailable: param2,
+        roomsAmount: param3,
+        hideMap: hide,
+        hideForm: true
+      },
+      () => {
+        if (!hide) {
           this.mapRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-        else{
+        } else {
           this.topRef.current.scrollIntoView({ behavior: "smooth" });
         }
       }
     );
-
   };
   getMap = (param, hide) => {
-    this.setState({
-      roomsChose: param,
-      hideForm: hide
-    },
-    ()=> {
-      if(hide){
-        this.mapRef.current.scrollIntoView({ behavior: "smooth" });
+    this.setState(
+      {
+        roomsChose: param,
+        hideForm: hide
+      },
+      () => {
+        if (hide) {
+          this.mapRef.current.scrollIntoView({ behavior: "smooth" });
+        }
       }
-    });
+    );
   };
 
+  endReservation = () => {
+    this.setState(this.getInitialState(), () => {
+      this.topRef.current.scrollIntoView({ behavior: "smooth" });
+    });
+  };
 
   render() {
     return (
       <div id="client" ref={this.topRef}>
+        <div
+          className="code-nav-single d-flex align-items-center"
+          onClick={() => {
+            this.setState({
+              checkReservation: true
+            });
+          }}
+        >
+          <span>Sprawdź rezerwację</span>
+          <div className="code-nav-icon" />
+        </div>
+        {this.state.checkReservation ? <CheckCode callbackCheckCode={() => {
+            this.setState({
+              checkReservation: false
+            });
+          }}/> : null}
         <div id="top">
           <div className="container">
             <div className="row justify-content-lg-end justify-content-sm-center">
@@ -86,12 +114,12 @@ class Client extends React.Component {
               </div>
             </div>
           </div>
-          <div className="r-768"/>
-          <div className="r-768"/>
+          <div className="r-768" />
+          <div className="r-768" />
         </div>
         {!this.state.hideMap ? (
           <div className="container-fluid" ref={this.mapRef}>
-            <div className="r"/>
+            <div className="r" />
             <RoomMap
               roomsAmount={this.state.roomsAmount}
               roomsAvailable={this.state.roomsAvailable}
@@ -106,7 +134,9 @@ class Client extends React.Component {
               peopleAmount={this.state.peopleAmount}
               dateFrom={this.state.from}
               dateTo={this.state.to}
+              callbackClientForm={this.endReservation}
             />
+            <div className="r" />
           </div>
         ) : null}
       </div>
