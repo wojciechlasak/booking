@@ -33,9 +33,9 @@ class Admin extends React.Component {
     this.props.history.replace("/");
   };
 
-  componentChange = e => {
+  componentChange = value => {
     this.setState({
-      component: e.target.value
+      component:value
     });
   };
 
@@ -87,24 +87,26 @@ class Admin extends React.Component {
           </svg>
         </div>
         <nav id="admin-nav" className={this.state.burgerClick?"nav-show":""}>
-          <button value="clients" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
-            Przegląd klientów
-          </button>
-          <button value="addReservations" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
-            Dodaj rezerwacje
-          </button>
-          <button value="opinions" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
-            Przegląd Opinii
-          </button>
-          <button value="reservations" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
-            Przegląd rezerwacji
-          </button>
-          <button value="rooms" onClick={(e)=> {this.componentChange(e); this.handleBurgerClick()}}>
-            Przegląd pokoi
-          </button>
-          <button onClick={this._handleLogout}>LOGOUT</button>
+          <div className="admin-nav-single d-flex align-items-center" onClick={()=> {this.componentChange("clients"); this.handleBurgerClick()}}>
+            <span>Przegląd klientów</span><div className="admin-nav-icon"></div>
+          </div>
+          <div className="admin-nav-single d-flex align-items-center"  onClick={()=> {this.componentChange("addReservations"); this.handleBurgerClick()}}>
+            <span>Dodaj rezerwacje</span><div className="admin-nav-icon"></div>
+          </div>
+          <div className="admin-nav-single d-flex align-items-center" onClick={()=> {this.componentChange("opinions"); this.handleBurgerClick()}}>
+            <span>Przegląd Opinii</span><div className="admin-nav-icon"></div>
+          </div>
+          <div className="admin-nav-single d-flex align-items-center"  onClick={()=> {this.componentChange("reservations"); this.handleBurgerClick()}}>
+            <span>Przegląd rezerwacji</span><div className="admin-nav-icon"></div>
+          </div>
+          <div className="admin-nav-single d-flex align-items-center" onClick={()=> {this.componentChange("rooms"); this.handleBurgerClick()}}>
+            <span>Przegląd pokoi</span><div className="admin-nav-icon"></div>
+          </div>
+          <div className="admin-nav-single admin-nav-single-logout d-flex align-items-center" onClick={this._handleLogout}>
+            <span>LOGOUT</span><div className="admin-nav-icon admin-nav-icon-logout"></div>
+          </div>
         </nav>
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center container">
           <div className="r"/>
           {this.componentRender()}
         </div>

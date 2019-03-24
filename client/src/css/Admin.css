@@ -1,175 +1,280 @@
-#admin-container{
+#admin-container {
   background: url("../img/low_contrast_linen.png");
   min-height: 100vh;
 }
 
-#admin-nav{
-    position: fixed;
-    top:0;
-    bottom:0;
-    left:-100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items: center;
-    width:20em;
-    background-color:#ccc;
-    transition: 0.5s ease-in-out;
-    z-index: 100;
+#admin-nav {
+  position: fixed;
+  top: 3em;
+  bottom: 0;
+  left: 1em;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
 }
 
-#admin-nav button{
-    padding:0.75em;
-    margin:0.5em 0.5em;
-    width:10em;
-    cursor: pointer;
+.admin-nav-single {
+  background-color: #546060;
+  border-radius: 40px;
+  padding: 1em 1em;
+  margin: 0.25em 0;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 3.5em;
+  border: none;
 }
 
-#admin-nav.nav-show{
-    left:0;
+.admin-nav-single:hover span {
+  display: block;
+}
+
+.admin-nav-single:hover {
+  border-radius: 25px;
+  padding: 1em 1em;
+  width: auto;
+}
+
+.admin-nav-single span {
+  color: #a3aaaa;
+  font-size: 0.9em;
+  margin-right: 1.5em;
+  display: none;
+  transition: 0.3s;
+}
+
+.admin-nav-icon {
+  position: relative;
+  background-image: url("../img/plus.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+#admin-nav .admin-nav-single:nth-child(1) .admin-nav-icon {
+  background-image: url("../img/ludzik.svg");
+}
+#admin-nav .admin-nav-single:nth-child(2) .admin-nav-icon {
+  background-image: url("../img/plusadmin.svg");
+}
+#admin-nav .admin-nav-single:nth-child(3) .admin-nav-icon {
+  background-image: url("../img/opinia.svg");
+}
+#admin-nav .admin-nav-single:nth-child(4) .admin-nav-icon {
+  background-image: url("../img/rezerwacja.svg");
+}
+#admin-nav .admin-nav-single:nth-child(5) .admin-nav-icon {
+  background-image: url("../img/kuczpokoj.svg");
+}
+
+.admin-nav-single-logout {
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+  z-index: 100;
+}
+
+.admin-nav-icon-logout {
+  background-image: url("../img/wyloguj.svg");
 }
 
 #burger {
-    position: fixed;
-    top: 1em;
-    left: 1em;
-    cursor: pointer;
-    z-index: 101;
-    width: 1.5em;
-    height: 1.5em;
-  }
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  cursor: pointer;
+  z-index: 101;
+  width: 1.5em;
+  height: 1.5em;
+}
 
 #burger svg {
+  display: none;
+}
+#burger path {
+  stroke-width: 10;
+  stroke: #000;
+  fill: none;
+  transition: 0.3s;
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+#burger.nav-show path {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+#burger.nav-show path:nth-child(1) {
+  -webkit-transform: rotate(45deg) translate(0, 30px);
+  -moz-transform: rotate(45deg) translate(0, 30px);
+  -o-transform: rotate(45deg) translate(0, 30px);
+  transform: rotate(45deg) translate(0, 30px);
+}
+#burger.nav-show path:nth-child(3) {
+  -webkit-transform: rotate(-45deg) translate(0, -30px);
+  -moz-transform: rotate(-45deg) translate(0, -30px);
+  -o-transform: rotate(-45deg) translate(0, -30px);
+  transform: rotate(-45deg) translate(0, -30px);
+}
+
+thead {
+  background-color: #161616;
+  color: #fff;
+  text-align: center;
+}
+
+th {
+  font-size: 1em;
+  padding: 10px 20px;
+  border-left: 1px solid #c56913;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  transition: 0.2s;
+}
+
+th:nth-child(1) {
+  border-left: none;
+}
+
+tbody {
+  vertical-align: middle;
+  text-align: center;
+  background-color: #2f2f2f;
+  color: #cac9c9;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+@media (max-width: 768px), (max-height: 450px) {
+  #burger svg {
     display: block;
   }
-  #burger path {
-    stroke-width: 10;
-    stroke: #000;
-    fill: none;
-    transition: 0.3s;
-    -webkit-transform-origin: 50% 50%;
-    -moz-transform-origin: 50% 50%;
-    -o-transform-origin: 50% 50%;
-    transform-origin: 50% 50%;
+  #admin-nav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20em;
+    background-color: #3e3e3e;
+    transition: 0.5s ease-in-out;
+    z-index: 100;
   }
-  #burger.nav-show path {
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
+  #admin-nav.nav-show {
+    left: 0;
   }
-  #burger.nav-show path:nth-child(1) {
-    -webkit-transform: rotate(45deg) translate(0, 30px);
-    -moz-transform: rotate(45deg) translate(0, 30px);
-    -o-transform: rotate(45deg) translate(0, 30px);
-    transform: rotate(45deg) translate(0, 30px);
+  .admin-nav-single,
+  .admin-nav-single:hover {
+    border-radius: 25px;
+    padding: 1em 1em;
+    width: 15em;
+    display: flex;
+    justify-content: center;
   }
-  #burger.nav-show path:nth-child(3) {
-    -webkit-transform: rotate(-45deg) translate(0, -30px);
-    -moz-transform: rotate(-45deg) translate(0, -30px);
-    -o-transform: rotate(-45deg) translate(0, -30px);
-    transform: rotate(-45deg) translate(0, -30px);
+  .admin-nav-single span {
+    display: block;
+  }
+  .admin-nav-single-logout {
+    bottom: 1em;
+    left:auto;
+    z-index: 100;
+  }
+}
+
+@media only screen and (max-width: 850px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
   }
 
-
-  thead {
-    background-color: #161616;
-    color:#fff;
-    text-align:center;
-  }
-  
-  th {
-    font-size: 1em;
-    padding: 10px 20px;
-    border-left: 1px solid #c56913;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    transition: 0.2s;
-  }
-  
-  
-  th:nth-child(1) {
-    border-left: none;
-  }
-  
-  tbody {
-    vertical-align: middle;
+  table {
+    width: 100%;
     text-align: center;
-    background-color: #2f2f2f;
-    color:#cac9c9;
+    border-collapse: collapse;
   }
-  
-  td {
-    padding: 5px 10px;
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
   }
-  
-  @media only screen and (max-width: 850px),
-    (min-device-width: 768px) and (max-device-width: 1024px) {
-    /* Force table to not be like tables anymore */
-    table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
-      display: block;
-    }
-  
-    table {
-      width: 100%;
-      text-align: center;
-      border-collapse: collapse;
-    }
-    /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-  
-    tr {
-      border: 1px solid #7a7a7a;
-    }
-  
-    td {
-      /* Behave  like a "row" */
-      border: none;
-      border-bottom: 1px solid #8f8f8f;
-      position: relative;
-      padding-left: 50%;
-    }
-  
-    td:before {
-      /* Now like a table header */
-      position: absolute;
-      /* Top/left values mimic padding */
-      top: 6px;
-      left: 6px;
-      width: 60%;
-      padding-right: 10px;
-      white-space: nowrap;
-    }
-  
-    /* Zebra striping */
-    tr:nth-of-type(odd) {
-      background: #696969;
-    }
-    th {
-      background: #333;
-      color: white;
-      font-weight: bold;
-    }
-  
-    td:nth-of-type(1).client-td:before { content: "ID:"; }
-    td:nth-of-type(2).client-td:before { content: "Imię:"; }
-    td:nth-of-type(3).client-td:before { content: "Nazwisko:"; }
-    td:nth-of-type(4).client-td:before { content: "Email:"; }
-    td:nth-of-type(5).client-td:before { content: "Telefon:"; }
 
-    td:nth-of-type(1).opinion-td:before { content: "ID:"; }
-    td:nth-of-type(2).opinion-td:before { content: "Gwiazdki:"; }
-    td:nth-of-type(3).opinion-td:before { content: "Treść:"; }
-    td:nth-of-type(4).opinion-td:before { content: "Kod rezerwacji:"; }
-  
+  tr {
+    border: 1px solid #7a7a7a;
   }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #8f8f8f;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 60%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /* Zebra striping */
+  tr:nth-of-type(odd) {
+    background: #696969;
+  }
+  th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+  }
+
+  td:nth-of-type(1).client-td:before {
+    content: "ID:";
+  }
+  td:nth-of-type(2).client-td:before {
+    content: "Imię:";
+  }
+  td:nth-of-type(3).client-td:before {
+    content: "Nazwisko:";
+  }
+  td:nth-of-type(4).client-td:before {
+    content: "Email:";
+  }
+  td:nth-of-type(5).client-td:before {
+    content: "Telefon:";
+  }
+
+  td:nth-of-type(1).opinion-td:before {
+    content: "ID:";
+  }
+  td:nth-of-type(2).opinion-td:before {
+    content: "Gwiazdki:";
+  }
+  td:nth-of-type(3).opinion-td:before {
+    content: "Treść:";
+  }
+  td:nth-of-type(4).opinion-td:before {
+    content: "Kod rezerwacji:";
+  }
+}
