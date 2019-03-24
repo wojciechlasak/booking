@@ -30,6 +30,23 @@ const WEEKDAYS_LONG = [
 ];
 const WEEKDAYS_SHORT = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "N"];
 
+const HIGH_SEASON = [{
+  fromMonth: "12",
+  fromDay: "23",
+  toMonth: "1",
+  toDay: "2",
+},{
+  fromMonth: "6",
+  fromDay: "30",
+  toMonth: "8",
+  toDay: "31",
+},{
+  fromMonth: "1",
+  fromDay: "15",
+  toMonth: "2",
+  toDay: "8",
+}]
+
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
@@ -68,6 +85,14 @@ class Calendar extends React.Component {
             enteredTo: day
           },
           () => {
+            for(let date of HIGH_SEASON){
+              let yearFrom = this.state.from.getFullYear();
+              let yearTo = this.state.to.getFullYear();
+              let dateFrom = new Date(yearFrom,date.fromMonth-1,date.fromDay);
+              let dateTo = new Date(yearTo,date.toMonth-1,date.toDay);
+              console.log(dateFrom>=this.state.from && dateFrom<this.state.to)
+              //dopisac warunki i przeslac callbackiem czy placi najwyzsza cene
+            }
             this.props.callback(
               this.state.from.toISOString(),
               this.state.to.toISOString(),
