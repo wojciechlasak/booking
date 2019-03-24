@@ -12,9 +12,7 @@ const exjwt = require("express-jwt");
 const bcrypt = require("bcrypt");
 
 //mail
-var postfix = require("postfix");
 var nodemailer = require("nodemailer");
-var name = postfix("@gmail.com");
 
 //routes
 var indexRouter = require("./routes/index");
