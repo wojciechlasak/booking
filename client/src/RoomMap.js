@@ -82,7 +82,6 @@ class RoomMap extends React.Component {
         roomsSelected: [...prevState.roomsSelected, this.state.roomSelected]
       }));
     }
-    console.log(this.state.roomsSelected);
   }
 
   handleNextStage = () => {
@@ -138,30 +137,6 @@ class RoomMap extends React.Component {
     }
     return arr;
   }
-
-  /*renderChosenRoom() {
-    let roomRemove = [];
-    if (this.state.roomsSelected.length !== 0) {
-      roomRemove.push(<h3>Wybrane pokoje:</h3>);
-    }
-    for (let room in this.state.roomsSelected) {
-      roomRemove.push(
-        <div
-          className="rooms-chosen-single d-flex align-items-center"
-          key={room}
-        >
-          {"Pokój nr " + this.state.roomsSelected[room]}{" "}
-          <div
-            className="rooms-chosen-single-img"
-            onClick={() =>
-              this.handleRemoveRoom(this.state.roomsSelected[room])
-            }
-          />
-        </div>
-      );
-    }
-    return roomRemove;
-  }*/
 
   renderRoom() {
     let room = this.state.roomsAvailable.find(

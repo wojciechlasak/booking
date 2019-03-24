@@ -141,23 +141,6 @@
   padding:0.79em;
 }
 
-.rooms-chosen-single-img{
-  display: inline-block;
-  background-image: url("../img/icon-x.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:cover;
-  width: 1.5em;
-  height: 1.5em;
-  margin-left: 0.5em;
-  cursor: pointer;
-  transition: .3s;
-}
-
-.rooms-chosen-single-img:hover{
-    background-image: url("../img/icon-x-full.png");
-}
-
 .star{
   background-repeat: no-repeat;
   background-position: center;
