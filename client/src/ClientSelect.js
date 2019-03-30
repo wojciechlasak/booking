@@ -18,7 +18,6 @@ class ClientSelect extends React.Component {
       roomOpen: false
     };
   }
-
   componentDidUpdate(prevProps) {
     if (
       this.props.dateFrom !== prevProps.dateFrom ||
@@ -35,7 +34,9 @@ class ClientSelect extends React.Component {
       )
         .then(function(response) {
           if (response.status >= 400) {
-            throw new Error("Bad response from server");
+            var error = new Error(response.statusText)
+            error.response = response
+            throw error
           }
           return response.json();
         })
@@ -58,7 +59,9 @@ class ClientSelect extends React.Component {
       )
         .then(function(response) {
           if (response.status >= 400) {
-            throw new Error("Bad response from server");
+            var error = new Error(response.statusText)
+            error.response = response
+            throw error
           }
           return response.json();
         })
@@ -205,7 +208,7 @@ class ClientSelect extends React.Component {
   };
 
   sendCallback( value, hide) {
-    this.props.callbackSelect(
+    this.props.callback(
       this.state.peopleAmount,
       this.state.rooms,
       value,

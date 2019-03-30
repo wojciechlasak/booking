@@ -24,21 +24,22 @@ class Client extends React.Component {
       peopleAmount: null,
       roomsAvailable: null,
       roomsAmount: null,
-      roomsChose: null,
-      checkReservation: false
+      roomsChosen: null,
+      highSeason:null,
     };
   }
 
-  getDate = (param1, param2, hide) => {
+  getStatesCalendar = (param1, param2, hide, high) => {
     this.setState({
       from: param1,
       to: param2,
       hideMap: hide,
-      hideForm: hide
+      hideForm: hide,
+      highSeason:high
     });
   };
 
-  getSelect = (param1, param2, param3, hide) => {
+  getStatesSelect = (param1, param2, param3, hide) => {
     this.setState(
       {
         peopleAmount: param1,
@@ -56,10 +57,10 @@ class Client extends React.Component {
       }
     );
   };
-  getMap = (param, hide) => {
+  getStatesRoomMap = (param, hide) => {
     this.setState(
       {
-        roomsChose: param,
+        roomsChosen: param,
         hideForm: hide
       },
       () => {
@@ -70,7 +71,7 @@ class Client extends React.Component {
     );
   };
 
-  endReservation = () => {
+  reservationDone = () => {
     this.setState(this.getInitialState(), () => {
       this.topRef.current.scrollIntoView({ behavior: "smooth" });
     });
@@ -79,35 +80,20 @@ class Client extends React.Component {
   render() {
     return (
       <div id="client" ref={this.topRef}>
-        <div
-          className="code-nav-single d-flex align-items-center"
-          onClick={() => {
-            this.setState({
-              checkReservation: true
-            });
-          }}
-        >
-          <span>Sprawdź rezerwację</span>
-          <div className="code-nav-icon" />
-        </div>
-        {this.state.checkReservation ? <CheckCode callbackCheckCode={() => {
-            this.setState({
-              checkReservation: false
-            });
-          }}/> : null}
+        <CheckCode/>
         <div id="top">
           <div className="container">
             <div className="row justify-content-lg-end justify-content-sm-center">
               <div className="col-sm-10 col-lg-8 text-right">
                 <div className="r" />
-                <Calendar callback={this.getDate} />
+                <Calendar callback={this.getStatesCalendar} />
               </div>
             </div>
             <div className="row justify-content-lg-end">
               <div className="col-lg-8">
                 <div className="r" />
                 <ClientSelect
-                  callbackSelect={this.getSelect}
+                  callback={this.getStatesSelect}
                   dateFrom={this.state.from}
                   dateTo={this.state.to}
                 />
@@ -123,18 +109,19 @@ class Client extends React.Component {
             <RoomMap
               roomsAmount={this.state.roomsAmount}
               roomsAvailable={this.state.roomsAvailable}
-              callbackMap={this.getMap}
+              callback={this.getStatesRoomMap}
             />
           </div>
         ) : null}
         {!this.state.hideForm ? (
-          <div id="client-summary">
+          <div id="client-summary" className="container">
             <ClientForm
-              roomsChose={this.state.roomsChose}
+              roomsChosen={this.state.roomsChosen}
               peopleAmount={this.state.peopleAmount}
               dateFrom={this.state.from}
               dateTo={this.state.to}
-              callbackClientForm={this.endReservation}
+              highSeason={this.state.highSeason}
+              callback={this.reservationDone}
             />
             <div className="r" />
           </div>

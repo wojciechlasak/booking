@@ -19,7 +19,8 @@ class ClientForm extends React.Component {
       dateFrom: this.props.dateFrom,
       dateTo: this.props.dateTo,
       peopleAmount: Number(this.props.peopleAmount),
-      roomsChose: this.props.roomsChose
+      roomsChose: this.props.roomsChose,
+      highSeason: this.props.highSeason,
     };
   }
 
@@ -131,7 +132,7 @@ class ClientForm extends React.Component {
           if (response.status >= 400) {
             throw new Error("Bad response from server");
           }
-          return this.props.callbackClientForm();
+          return this.props.callback();
         });
       })
       .catch(err => {
@@ -146,6 +147,8 @@ class ClientForm extends React.Component {
           {this.state.dateFrom}&nbsp;{this.state.dateTo}<br/>
           {this.state.peopleAmount}<br/>
           {this.state.roomsChose}<br/>
+          Czy mamy wysoki sezon?&nbsp;{this.state.highSeason?"tak":"nie"}
+          {console.log(this.state.highSeason)}
         </div>
         <div className="col-sm-8 col-lg-4 mr-lg-5 mb-sm-5">
           <Form method="post" className="Login" onSubmit={this.handleSubmit}>

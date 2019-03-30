@@ -27,7 +27,7 @@ class RoomMap extends React.Component {
     ) {
       this.setState(
         this.getInitialState(),
-        this.props.callbackMap(this.state.roomsSelected, true)
+        this.props.callback(this.state.roomsSelected, true)
       );
     }
   }
@@ -60,13 +60,15 @@ class RoomMap extends React.Component {
   }
 
   isSelected(value) {
-    return this.state.roomsSelected.includes(value) ||
-      this.state.roomSelected === value
+    return this.state.roomsSelected.includes(value)
       ? "selected"
+      : this.state.roomSelected === value
+      ? "active"
       : "";
   }
 
   handleAddRemoveRoom(room) {
+    console.log(this.state.roomsAmount,this.state.roomsSelected.length,this.state.roomsSelected,this.state.roomSelected);
     if (this.state.roomsSelected.includes(room)) {
       let array = [...this.state.roomsSelected];
       let index = array.indexOf(room);
@@ -74,7 +76,8 @@ class RoomMap extends React.Component {
         array.splice(index, 1);
         this.setState(
           { roomsSelected: array, bookingButton: true },
-          this.props.callbackMap(this.state.roomsSelected, true)
+          this.props.callback(this.state.roomsSelected, true),
+          
         );
       }
     } else {
@@ -88,7 +91,7 @@ class RoomMap extends React.Component {
     this.setState(prevState => ({
       bookingButton: !prevState.bookingButton
     }));
-    this.props.callbackMap(this.state.roomsSelected, false);
+    this.props.callback(this.state.roomsSelected, false);
   };
 
   getOpinions(nr) {
@@ -159,15 +162,22 @@ class RoomMap extends React.Component {
               <button
                 className="button-add"
                 disabled={
-                  !(this.state.roomsAmount > this.state.roomsSelected.length) &&
-                  !this.state.roomsSelected.includes(room.room_nr)
+                  (this.state.roomsSelected.length >= this.state.roomsAmount && !this.state.roomsSelected.includes(room.room_nr))
                 }
                 onClick={() => this.handleAddRemoveRoom(room.room_nr)}
               >
                 <div className="d-flex justify-content-center align-items-center">
-                {!this.state.roomsSelected.includes(room.room_nr)
-                  ? <><div className="button-icon button-plus"></div>DODAJ POKÓJ</>
-                  : <><div className="button-icon button-x"></div>USUŃ POKÓJ</>}
+                  {!this.state.roomsSelected.includes(room.room_nr) ? (
+                    <>
+                      <div className="button-icon button-plus" />
+                      DODAJ POKÓJ
+                    </>
+                  ) : (
+                    <>
+                      <div className="button-icon button-x" />
+                      USUŃ POKÓJ
+                    </>
+                  )}
                 </div>
               </button>
             </div>

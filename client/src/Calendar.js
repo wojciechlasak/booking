@@ -3,8 +3,6 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./css/Calendar.css";
 
-
-
 const MONTHS = [
   "Styczeń",
   "Luty",
@@ -30,28 +28,34 @@ const WEEKDAYS_LONG = [
 ];
 const WEEKDAYS_SHORT = ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "N"];
 
-const HIGH_SEASON = [{
-  fromMonth: "12",
-  fromDay: "23",
-  toMonth: "1",
-  toDay: "2",
-},{
-  fromMonth: "6",
-  fromDay: "30",
-  toMonth: "8",
-  toDay: "31",
-},{
-  fromMonth: "1",
-  fromDay: "15",
-  toMonth: "2",
-  toDay: "8",
-}]
+const HIGH_SEASON = [
+  {
+    fromMonth: "12",
+    fromDay: "23",
+    toMonth: "1",
+    toDay: "2",
+    changeYear: true
+  },
+  {
+    fromMonth: "6",
+    fromDay: "30",
+    toMonth: "8",
+    toDay: "31",
+    changeYear: false
+  },
+  {
+    fromMonth: "1",
+    fromDay: "15",
+    toMonth: "2",
+    toDay: "8",
+    changeYear: false
+  }
+];
 
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
-
   }
   getInitialState() {
     return {
@@ -78,31 +82,25 @@ class Calendar extends React.Component {
           to: null,
           enteredTo: null
         });
-      } else { /*if both selected, change state and callback to parent*/
+      } else {
+        /*if both selected, change state and callback to parent*/
         this.setState(
           {
             to: day,
             enteredTo: day
           },
           () => {
-            for(let date of HIGH_SEASON){
-              let yearFrom = this.state.from.getFullYear();
-              let yearTo = this.state.to.getFullYear();
-              let dateFrom = new Date(yearFrom,date.fromMonth-1,date.fromDay);
-              let dateTo = new Date(yearTo,date.toMonth-1,date.toDay);
-              console.log(dateFrom>=this.state.from && dateFrom<this.state.to)
-              //dopisac warunki i przeslac callbackiem czy placi najwyzsza cene
-            }
             this.props.callback(
               this.state.from.toISOString(),
               this.state.to.toISOString(),
-              true
+              true,
+              this.isHighSeason()
             );
           }
         );
       }
     }
-  }
+  };
   handleDayMouseEnter = day => {
     const { from, to } = this.state;
     if (!this.isSelectingFirstDay(from, to, day)) {
@@ -110,13 +108,39 @@ class Calendar extends React.Component {
         enteredTo: day
       });
     }
-  }
+  };
   handleResetClick = () => {
     this.setState(this.getInitialState());
-  }
+  };
+
+  isHighSeason = () => {
+    let highSeason = false;
+    for (let date of HIGH_SEASON) {
+      let yearFrom = this.state.from.getFullYear();
+      let yearTo = this.state.to.getFullYear();
+      if (
+        date.changeYear &&
+        (this.state.from.getMonth() !== 0 && this.state.to.getMonth() !== 0)
+      ) {
+        yearTo++;
+      }
+      if (date.changeYear && this.state.from.getMonth() === 0) {
+        yearFrom--;
+      }
+
+      let dateFrom = new Date(yearFrom, date.fromMonth - 1, date.fromDay);
+      let dateTo = new Date(yearTo, date.toMonth - 1, date.toDay);
+      if (!(this.state.to < dateFrom || this.state.from > dateTo)) {
+        highSeason = true;
+        break;
+      }
+    }
+
+    return highSeason;
+  };
 
   render() {
-    const { from,enteredTo } = this.state;
+    const { from, enteredTo } = this.state;
     const modifiers = { start: from, end: enteredTo };
     const selectedDays = [from, { from, to: enteredTo }];
     const disabledDays = { before: new Date() };
