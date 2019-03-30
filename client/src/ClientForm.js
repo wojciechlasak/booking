@@ -16,11 +16,12 @@ class ClientForm extends React.Component {
       surname: null,
       email: null,
       phone: null,
+      booked: false,
       dateFrom: this.props.dateFrom,
       dateTo: this.props.dateTo,
       peopleAmount: Number(this.props.peopleAmount),
-      roomsChose: this.props.roomsChose,
-      highSeason: this.props.highSeason,
+      roomsChosen: this.props.roomsChosen,
+      highSeason: this.props.highSeason
     };
   }
 
@@ -29,7 +30,7 @@ class ClientForm extends React.Component {
       this.props.dateFrom !== prevProps.dateFrom ||
       this.props.dateTo !== prevProps.dateTo ||
       this.props.peopleAmount !== prevProps.peopleAmount ||
-      this.props.roomsChose !== prevProps.roomsChose
+      this.props.roomsChosen !== prevProps.roomsChosen
     ) {
       this.setState(this.getInitialState());
     }
@@ -77,78 +78,87 @@ class ClientForm extends React.Component {
   };
 
   handleSubmit = () => {
-    var client = {
-      name: this.state.name,
-      surname: this.state.surname,
-      mail: this.state.email,
-      phone: this.state.phone
-    };
+    if (!this.state.booked) {
+      this.setState({
+        booked: true
+      });
 
-    var reservation = {
-      id: this.reservationCode(),
-      dateFrom: this.state.dateFrom,
-      dateTo: this.state.dateTo,
-      peopleAmount: this.state.peopleAmount
-    };
+      var client = {
+        name: this.state.name,
+        surname: this.state.surname,
+        mail: this.state.email,
+        phone: this.state.phone
+      };
 
-    var clientPostId;
+      var reservation = {
+        id: this.reservationCode(),
+        dateFrom: this.state.dateFrom,
+        dateTo: this.state.dateTo,
+        peopleAmount: this.state.peopleAmount
+      };
 
-    fetch("/clients", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(client)
-    })
-      .then(function(response) {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        return response.json();
+      var clientPostId;
+
+      fetch("/clients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(client)
       })
-      .then(function(response) {
-        clientPostId = response.insertId;
-      })
-      .then(() => {
-        Object.assign(reservation, { clientId: clientPostId });
-        for (let i of this.state.roomsChose) {
-          Object.assign(reservation, { roomNr: i });
-          fetch("/reservations", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(reservation)
-          }).then(function(response) {
-            if (response.status >= 400) {
-              throw new Error("Bad response from server");
-            }
-            return response.status;
-          });
-        }
-      })
-      .then(() => {
-        fetch("/send", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify([client, reservation])
-        }).then(response => {
+        .then(function(response) {
           if (response.status >= 400) {
             throw new Error("Bad response from server");
           }
-          return this.props.callback();
+          return response.json();
+        })
+        .then(response => {
+          clientPostId = response.insertId;
+        })
+        .then(() => {
+          Object.assign(reservation, { clientId: clientPostId });
+          console.log(this.state.roomsChosen)
+          for (let i of this.state.roomsChosen) {
+            Object.assign(reservation, { roomNr: i });
+            fetch("/reservations", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(reservation)
+            }).then(function(response) {
+              if (response.status >= 400) {
+                throw new Error("Bad response from server");
+              }
+              return response.status;
+            });
+          }
+        })
+        .then(() => {
+          fetch("/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify([client, reservation])
+          }).then(response => {
+            if (response.status >= 400) {
+              throw new Error("Bad response from server");
+            }
+            return this.props.callback();
+          });
+        })
+        .catch(err => {
+          console.log("caught it!", err);
         });
-      })
-      .catch(err => {
-        console.log("caught it!", err);
-      });
+    }
   };
 
   render() {
     return (
       <div className=" row justify-content-sm-center">
         <div className="reservation-summary-conatiner col-sm-8 col-lg-4 mr-lg-5">
-          {this.state.dateFrom}&nbsp;{this.state.dateTo}<br/>
-          {this.state.peopleAmount}<br/>
-          {this.state.roomsChose}<br/>
-          Czy mamy wysoki sezon?&nbsp;{this.state.highSeason?"tak":"nie"}
-          {console.log(this.state.highSeason)}
+          {this.state.dateFrom}&nbsp;{this.state.dateTo}
+          <br />
+          {this.state.peopleAmount}
+          <br />
+          {this.state.roomsChosen}
+          <br />
+          Czy mamy wysoki sezon?&nbsp;{this.state.highSeason ? "tak" : "nie"}
         </div>
         <div className="col-sm-8 col-lg-4 mr-lg-5 mb-sm-5">
           <Form method="post" className="Login" onSubmit={this.handleSubmit}>
@@ -190,7 +200,7 @@ class ClientForm extends React.Component {
               />
             </FormGroup>
 
-            <Button onClick={this.handleSubmit}>Wyślij</Button>
+            <Button disabled={this.state.booked} onClick={this.handleSubmit}>Wyślij</Button>
           </Form>
         </div>
       </div>
