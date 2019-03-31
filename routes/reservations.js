@@ -8,13 +8,11 @@ const jwtMW = exjwt({
   secret: "top_secret"
 });
 
-/*GET reservation*/
-router.get("/room/:roomNr",jwtMW, function(req, res) {
+/*GET all reservations of specify room*/
+router.get("/room/:roomNr", jwtMW, function(req, res) {
   con.query(
-    `SELECT * FROM reservation WHERE room_nr='${
-      req.params["roomNr"]
-    }'`,
-    function(error, results, fields) {
+    `SELECT * FROM reservation WHERE room_nr='${req.params["roomNr"]}'`,
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }
@@ -22,12 +20,12 @@ router.get("/room/:roomNr",jwtMW, function(req, res) {
 });
 
 /*GET specify reservation*/
-router.get("/reservation/:reservationId", function(req, res) {
+router.get("/:reservationId", function(req, res) {
   con.query(
     `SELECT * FROM reservation WHERE reservation_id='${
       req.params["reservationId"]
     }'`,
-    function(error, results, fields) {
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }
@@ -37,10 +35,12 @@ router.get("/reservation/:reservationId", function(req, res) {
 /*POST*/
 router.post("/", function(req, res) {
   con.query(
-    `INSERT INTO reservation VALUES ('${req.body.id}', 0, '${
+    `INSERT INTO reservation VALUES ('${req.body.id}','${
       req.body.dateFrom
-    }', '${req.body.dateTo}',"", ${req.body.peopleAmount}, ${req.body.roomNr},${req.body.clientId})`,
-    function(error, results, fields) {
+    }', '${req.body.dateTo}','${req.body.comments}', ${req.body.price}, ${req.body.roomNr},${
+      req.body.clientId
+    })`,
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }

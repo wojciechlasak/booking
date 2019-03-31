@@ -16,10 +16,11 @@ class ClientForm extends React.Component {
       surname: null,
       email: null,
       phone: null,
+      price: 0,
+      comments: null,
       booked: false,
       dateFrom: this.props.dateFrom,
       dateTo: this.props.dateTo,
-      peopleAmount: Number(this.props.peopleAmount),
       roomsChosen: this.props.roomsChosen,
       highSeason: this.props.highSeason
     };
@@ -29,7 +30,6 @@ class ClientForm extends React.Component {
     if (
       this.props.dateFrom !== prevProps.dateFrom ||
       this.props.dateTo !== prevProps.dateTo ||
-      this.props.peopleAmount !== prevProps.peopleAmount ||
       this.props.roomsChosen !== prevProps.roomsChosen
     ) {
       this.setState(this.getInitialState());
@@ -50,7 +50,7 @@ class ClientForm extends React.Component {
     }
     async function checkCode(code) {
       try {
-        const response = await fetch(`/reservations/reservation/${code}`, {
+        const response = await fetch(`/reservations/${code}`, {
           method: "GET"
         });
         const check = (await !response.json().length) ? false : true;
@@ -94,7 +94,8 @@ class ClientForm extends React.Component {
         id: this.reservationCode(),
         dateFrom: this.state.dateFrom,
         dateTo: this.state.dateTo,
-        peopleAmount: this.state.peopleAmount
+        price: this.state.price,
+        comments: this.state.comments
       };
 
       var clientPostId;
@@ -115,7 +116,6 @@ class ClientForm extends React.Component {
         })
         .then(() => {
           Object.assign(reservation, { clientId: clientPostId });
-          console.log(this.state.roomsChosen)
           for (let i of this.state.roomsChosen) {
             Object.assign(reservation, { roomNr: i });
             fetch("/reservations", {
@@ -154,14 +154,14 @@ class ClientForm extends React.Component {
         <div className="reservation-summary-conatiner col-sm-8 col-lg-4 mr-lg-5">
           {this.state.dateFrom}&nbsp;{this.state.dateTo}
           <br />
-          {this.state.peopleAmount}
+          {this.state.price}
           <br />
           {this.state.roomsChosen}
           <br />
           Czy mamy wysoki sezon?&nbsp;{this.state.highSeason ? "tak" : "nie"}
         </div>
         <div className="col-sm-8 col-lg-4 mr-lg-5 mb-sm-5">
-          <Form method="post" className="Login" onSubmit={this.handleSubmit}>
+          <Form  className="Login" onSubmit={this.handleSubmit}>
             <FormGroup>
               <Input
                 autoFocus
@@ -196,6 +196,15 @@ class ClientForm extends React.Component {
                 placeholder="Telefon"
                 id="phone"
                 value={this.state.phone || ""}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="textarea"
+                placeholder="Komentarz"
+                id="comments"
+                value={this.state.comments || ""}
                 onChange={this.handleChange}
               />
             </FormGroup>

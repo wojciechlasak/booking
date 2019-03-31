@@ -25,7 +25,7 @@ router.post("/", function(req, res) {
       req.body.phone
     }')
   ON DUPLICATE KEY UPDATE client_id=LAST_INSERT_ID(client_id)`,
-    function(error, results, fields) {
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }
@@ -36,7 +36,7 @@ router.post("/", function(req, res) {
 router.delete("/:clientId",jwtMW, function(req, res) {
   con.query(
     "DELETE FROM client where client_id = " + req.params["clientId"] + "",
-    function(error, results, fields) {
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }
@@ -51,7 +51,7 @@ router.patch("/:clientId",jwtMW, function(req, res) {
     }', email= '${req.body.mail}', phone = '${
       req.body.phone
     }' WHERE client_id = ${req.params["clientId"]}`,
-    function(error, results, fields) {
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }

@@ -73,25 +73,14 @@ class Rooms extends React.Component {
                 nr={room.room_nr}
               />
               <br />
-              Cena niska:{" "}
+              Cena:{" "}
               <ContentEditable
                 innerRef={this.contentEditable}
-                html={String(room.priceLow)}
+                html={String(room.price)}
                 onChange={this.handleChange}
                 className="room-edit"
                 tagName="span"
-                name="priceLow"
-                nr={room.room_nr}
-              />
-              <br />
-              Cena średnia:{" "}
-              <ContentEditable
-                innerRef={this.contentEditable}
-                html={String(room.priceMedium)}
-                onChange={this.handleChange}
-                className="room-edit"
-                tagName="span"
-                name="priceMedium"
+                name="price"
                 nr={room.room_nr}
               />
               <br />

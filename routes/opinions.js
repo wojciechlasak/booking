@@ -16,11 +16,11 @@ router.get("/",jwtMW, function(req, res) {
   });
 });
 
-/*GET oponion for specify room nr*/
+/*GET all opinions of specify room nr*/
 router.get("/room/:roomNr", function(req, res) {
   con.query(
     `SELECT room_nr, stars, content FROM opinion natural JOIN reservation where room_nr='${req.params["roomNr"]}'`,
-    function(error, results, fields) {
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }
@@ -32,7 +32,7 @@ router.post("/", function(req, res) {
   con.query(
     `INSERT IGNORE INTO opinion (stars, content, reservation_id) 
     VALUES ('${req.body.stars}', '${req.body.content}', '${req.body.reservation_id}')`,
-    function(error, results, fields) {
+    function(error, results) {
       if (error) throw error;
       res.send(JSON.stringify(results));
     }

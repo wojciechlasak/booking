@@ -30,7 +30,7 @@ router.get("/:roomId", function(req, res) {
   );
 });
 
-/*GET max people*/
+/*GET sum of max people of specify dates*/
 router.get("/free/max", function(req, res) {
   con.query(
     `SELECT sum(peopleMax) AS max FROM room WHERE room_nr NOT IN (SELECT room_nr FROM reservation 
@@ -42,6 +42,7 @@ router.get("/free/max", function(req, res) {
   );
 });
 
+/*GET all rooms of specify dates*/
 router.get("/free/info", function(req, res) {
   con.query(
     `SELECT * FROM room WHERE room_nr NOT IN (SELECT room_nr FROM reservation 
