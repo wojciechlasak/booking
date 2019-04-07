@@ -91,8 +91,8 @@ class Calendar extends React.Component {
           },
           () => {
             this.props.callback(
-              this.state.from.toISOString(),
-              this.state.to.toISOString(),
+              this.state.from.toISOString().slice(0,10),
+              this.state.to.toISOString().slice(0,10),
               true,
               this.isHighSeason()
             );

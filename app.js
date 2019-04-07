@@ -3,12 +3,12 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+require('dotenv').config()
 
 //login
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
-const exjwt = require("express-jwt");
 const bcrypt = require("bcrypt");
 
 //mail
@@ -95,15 +95,12 @@ app.post("/login", async (req, res, next) => {
 //mail
 app.post("/send", (req, res) => {
   var transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com", // hostname
+    host: "smtp.sendgrid.net", // hostname
     secureConnection: false, // TLS requires secureConnection to be false
     port: 587, // port for secure SMTP
-    tls: {
-      ciphers: "SSLv3"
-    },
     auth: {
-      user: "wojciech.lasak@outlook.com",
-      pass: ""//password here
+      user: process.env.SENDGRID_USERNAME,
+      pass: process.env.SENDGRID_PASSWORD
     }
   });
   const output = `
@@ -115,7 +112,7 @@ app.post("/send", (req, res) => {
 
   // setup email data with unicode symbols
   let mailOptions = {
-    from: "<wojciech.lasak@outlook.com>", // sender address
+    from: `<${process.env.MAIL_USER}>`, // sender address
     to: "wojtekl62699@gmail.com", // list of receivers
     subject: "Rezerwacja",
     text: "Hello world?", // plain text body
