@@ -24,14 +24,10 @@ class Login extends React.Component {
     e.preventDefault();
     this.Auth.login(this.state.nick, this.state.password)
       .then(res => {
-        if (res === false) {
-          return alert("Sorry those credentials don't exist!");
-        }
         this.props.history.replace("/admin");
       })
       .catch(err => {
-        console.log(err);
-        alert(err);
+        alert("Niepoprawne dane, spróbuj jeszcze raz");
       });
   };
 

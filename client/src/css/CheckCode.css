@@ -96,3 +96,9 @@ z-index: 100;
   width: 1.5em;
   height: 1.5em;
 }
+
+.form-error{
+  color:rgb(255, 0, 0);
+  font-size:1.29em;
+  
+}

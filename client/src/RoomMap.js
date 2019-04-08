@@ -149,7 +149,7 @@ class RoomMap extends React.Component {
           </div>
           <div className="room-info">
             <div className="room-info-in d-flex justify-content-between align-items-center">
-              <h2>Pokój {room.room_nr}</h2>
+              <h2>Pokój {room.room_nr}</h2><br/>
               <button
                 className="button-add"
                 disabled={
@@ -172,7 +172,7 @@ class RoomMap extends React.Component {
                 </div>
               </button>
             </div>
-
+            cena za pokój {this.state.highSeason?room.priceHigh:room.price} zł<br/><br/>
             {" " + room.description}
           </div>
           <div className="opinions-container">{this.renderOpinion()}</div>

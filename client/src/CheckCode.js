@@ -15,6 +15,7 @@ class CheckCode extends React.Component {
       isOpen: false,
       isCorrectCode:false,
       reservation:null,
+      error: null,
     };
   }
 
@@ -30,6 +31,15 @@ class CheckCode extends React.Component {
   }
 
   handleSubmit = () =>{
+    if(this.state.code===null){
+      this.setState({
+        error: "Wprowadź kod"
+      })
+    } else if(this.state.code.length!==6){
+      this.setState({
+        error: "Kod powinien mieć 6 znaków"
+      })
+    }else {
     fetch(`/reservations/${this.state.code}`,{method:"GET"})
     .then(function(response) {
       if (response.status >= 400) {
@@ -47,12 +57,15 @@ class CheckCode extends React.Component {
         })
       }
       else{
-        //alert
+        this.setState({
+          error: "Nieprawidłowy kod, wpisz jeszcze raz"
+        })
       }
     })
     .catch(err => {
       console.log("caught it!", err);
     });
+    }
   }
 
   handleChange = e => {
@@ -97,6 +110,7 @@ class CheckCode extends React.Component {
               />
             </FormGroup>
             <Button onClick={this.handleSubmit}>Sprawdź</Button>
+            {this.state.error?<div className="form-error">{this.state.error}</div>:null}
           </Form>:<div>{this.generateInfo()}</div>}
           <svg id="reservation-lightbox-close" onClick={this.closeLightbox} viewBox="0 0 100 100">
             <path d="M10 10L90 90" />
