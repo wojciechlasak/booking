@@ -2,3 +2,9 @@
   background-color:#313131;
   color:#fff;
 }
+
+.form-error{
+  color:rgb(255, 0, 0);
+  font-size:1.29em;
+  
+}

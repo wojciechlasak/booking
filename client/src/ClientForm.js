@@ -16,13 +16,14 @@ class ClientForm extends React.Component {
       surname: null,
       email: null,
       phone: null,
-      price: 0,
       comments: null,
       booked: false,
       dateFrom: this.props.dateFrom,
       dateTo: this.props.dateTo,
       roomsChosen: this.props.roomsChosen,
-      highSeason: this.props.highSeason
+      highSeason: this.props.highSeason,
+      bookingCost: null,
+      formError: null,
     };
   }
 
@@ -35,6 +36,51 @@ class ClientForm extends React.Component {
       this.setState(this.getInitialState());
     }
   }
+
+  componentDidMount() {
+    this.countPrice();
+  }
+
+  countPrice = () => {
+    let oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    let diffDays = Math.round(
+      Math.abs(
+        (new Date(this.state.dateFrom).getTime() -
+          new Date(this.state.dateTo).getTime()) /
+          oneDay
+      )
+    );
+
+    let getPrice = room_nr => {
+      return fetch(`/rooms/${room_nr}`, {
+        method: "GET"
+      })
+        .then(function(response) {
+          if (response.status >= 400) {
+            throw new Error("Bad response from server");
+          }
+          return response.json();
+        })
+        .then(response => {
+          const price = this.state.highSeason
+            ? response[0].price
+            : response[0].priceHigh;
+          return price;
+        })
+        .catch(err => {
+          console.log("caught it!", err);
+        });
+    };
+
+    for (let room of this.state.roomsChosen) {
+      getPrice(room).then(price => {
+        this.setState(prevState => ({
+          bookingCost: prevState.bookingCost+(price*diffDays),
+        }));
+      });
+    }
+
+  };
 
   reservationCode() {
     function generateRandomNumber() {
@@ -67,22 +113,46 @@ class ClientForm extends React.Component {
     return code;
   }
 
-  regexTestString(str) {
-    return /^[a-zA-ZzżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/.test(str);
+  checkFormCorretion(){
+    function regexTestPhone(phone) {
+      return /^\d{9}$/
+          .test(phone);
+    }
+    function regexTestString(str) {
+      return /^[a-zA-ZzżźćńółęąśŻŹĆĄŚĘŁÓŃ ]+$/.test(str);
+    }
+    function regexTestEmail(email) {
+      return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          .test(String(email).toLowerCase());
+    }
+;
+    let whichFormIncorrect = null;
+    if(!regexTestString(this.state.name) || this.state.name===null) {whichFormIncorrect="imię"}
+    else if(!regexTestString(this.state.surname) || this.state.surname===null){ whichFormIncorrect="nazwisko"}
+    else if(!regexTestEmail(this.state.email)) {whichFormIncorrect="email"}
+    else if(!regexTestPhone(this.state.phone)){ whichFormIncorrect="telefon"}
+
+    return whichFormIncorrect;
   }
 
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
-    });
+    }
+    );
   };
 
-  handleSubmit = () => {
-    if (!this.state.booked) {
+  handleSubmit = () => { 
+    let form = this.checkFormCorretion()
+    if(form!==null){
+      this.setState({
+        formError: form
+      })
+    }
+    else if (!this.state.booked) {
       this.setState({
         booked: true
       });
-
       var client = {
         name: this.state.name,
         surname: this.state.surname,
@@ -94,7 +164,7 @@ class ClientForm extends React.Component {
         id: this.reservationCode(),
         dateFrom: this.state.dateFrom,
         dateTo: this.state.dateTo,
-        price: this.state.price,
+        price: this.state.bookingCost,
         comments: this.state.comments
       };
 
@@ -152,16 +222,14 @@ class ClientForm extends React.Component {
     return (
       <div className=" row justify-content-sm-center">
         <div className="reservation-summary-conatiner col-sm-8 col-lg-4 mr-lg-5">
-          {this.state.dateFrom}&nbsp;{this.state.dateTo}
-          <br />
-          {this.state.price}
-          <br />
-          {this.state.roomsChosen}
-          <br />
-          Czy mamy wysoki sezon?&nbsp;{this.state.highSeason ? "tak" : "nie"}
+          {`Chcesz dokonać rezerwacji w terminie od ${this.state.dateFrom} do ${this.state.dateTo}`}
+          <br /><br />
+          {`Zarezerwowałeś pokój numer: ${this.state.roomsChosen.join(", ")}`}
+          <br /><br />
+          {`Całkowity koszt pobytu wynosi ${this.state.bookingCost} zł`}
         </div>
         <div className="col-sm-8 col-lg-4 mr-lg-5 mb-sm-5">
-          <Form  className="Login" onSubmit={this.handleSubmit}>
+          <Form className="Login" onSubmit={this.handleSubmit}>
             <FormGroup>
               <Input
                 autoFocus
@@ -209,7 +277,10 @@ class ClientForm extends React.Component {
               />
             </FormGroup>
 
-            <Button disabled={this.state.booked} onClick={this.handleSubmit}>Wyślij</Button>
+            <Button disabled={this.state.booked} onClick={this.handleSubmit}>
+              Wyślij
+            </Button>
+            {this.state.formError?<div className="form-error">{`Wypełnij lub popraw ${this.state.formError}`}</div>:null}
           </Form>
         </div>
       </div>

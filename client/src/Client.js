@@ -109,6 +109,7 @@ class Client extends React.Component {
             <RoomMap
               roomsAmount={this.state.roomsAmount}
               roomsAvailable={this.state.roomsAvailable}
+              highSeason={this.state.highSeason}
               callback={this.getStatesRoomMap}
             />
           </div>

@@ -15,6 +15,7 @@ class RoomMap extends React.Component {
       roomsAmount: this.props.roomsAmount,
       roomsAvailable: this.props.roomsAvailable,
       roomsAvailableNr: this.props.roomsAvailable.map(e => e.room_nr),
+      highSeason: this.props.highSeason,
       roomSelected: null,
       roomsSelected: [],
       opinions: [],
