@@ -80,7 +80,7 @@ class Client extends React.Component {
   render() {
     return (
       <div id="client" ref={this.topRef}>
-        <CheckCode/>
+        {this.props.isAdmin?null:<CheckCode/>}
         <div id="top">
           <div className="container">
             <div className="row justify-content-lg-end justify-content-sm-center">

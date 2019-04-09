@@ -1,8 +1,7 @@
 import React from "react";
 
-import Calendar from "./Calendar.js";
 import CalendarAdmin from "./CalendarAdmin.js";
-import ClientForm from "./ClientForm.js";
+import Client from "./Client.js";
 import Clients from "./Clients.js";
 import Opinions from "./Opinions.js";
 import Rooms from "./Rooms.js";
@@ -18,15 +17,27 @@ class Admin extends React.Component {
   constructor() {
     super();
     this.state = {
-      from : null,
+      from: null,
       to: null,
       component: null,
       burgerClick: true
     };
-    
   }
 
   Auth = new AuthHelperMethods();
+
+  componentDidMount() {
+    setInterval(
+      function() {
+        let token=this.Auth.getToken()
+        if (this.Auth.isTokenExpired(token)) {
+          this.props.history.replace("/login");
+        } else {
+        }
+      }.bind(this),
+      15000
+    );
+  }
 
   _handleLogout = () => {
     this.Auth.logout();
@@ -35,17 +46,9 @@ class Admin extends React.Component {
 
   componentChange = value => {
     this.setState({
-      component:value
+      component: value
     });
   };
-
-  getDate = (param1,param2) => {
-    this.setState({
-      from : param1,
-      to: param2,
-      hide: false
-    })
-  }
 
   componentRender() {
     switch (this.state.component) {
@@ -56,14 +59,9 @@ class Admin extends React.Component {
       case "opinions":
         return <Opinions />;
       case "addReservations":
-        return (
-          <div>
-            <Calendar callback={this.getDate}/>
-            <ClientForm  dateFrom={this.state.from} dateTo={this.state.to}/>
-          </div>
-        );
+        return <Client isAdmin={true} />;
       case "rooms":
-         return  <Rooms />
+        return <Rooms />;
       default:
         return null;
     }
@@ -73,45 +71,90 @@ class Admin extends React.Component {
     this.setState(prevState => ({
       burgerClick: !prevState.burgerClick
     }));
-  }
+  };
 
   //Render the protected component
   render() {
     return (
       <div id="admin-container">
-        <div id="burger" className={this.state.burgerClick?"nav-show":""} onClick={this.handleBurgerClick}>
+        <div
+          id="burger"
+          className={this.state.burgerClick ? "nav-show" : ""}
+          onClick={this.handleBurgerClick}
+        >
           <svg viewBox="0 0 100 100">
-              <path d="M 10 20 L 90 20"/>
-              <path d="M 10 50 L 90 50"/>
-              <path d="M 10 80 L 90 80"/>
+            <path d="M 10 20 L 90 20" />
+            <path d="M 10 50 L 90 50" />
+            <path d="M 10 80 L 90 80" />
           </svg>
         </div>
-        <nav id="admin-nav" className={this.state.burgerClick?"nav-show":""}>
-          <div className="admin-nav-single d-flex align-items-center" onClick={()=> {this.componentChange("clients"); this.handleBurgerClick()}}>
-            <span>Przegląd klientów</span><div className="admin-nav-icon"></div>
+        <nav
+          id="admin-nav"
+          className={this.state.burgerClick ? "nav-show" : ""}
+        >
+          <div
+            className="admin-nav-single d-flex align-items-center"
+            onClick={() => {
+              this.componentChange("clients");
+              this.handleBurgerClick();
+            }}
+          >
+            <span>Przegląd klientów</span>
+            <div className="admin-nav-icon" />
           </div>
-          <div className="admin-nav-single d-flex align-items-center"  onClick={()=> {this.componentChange("addReservations"); this.handleBurgerClick()}}>
-            <span>Dodaj rezerwacje</span><div className="admin-nav-icon"></div>
+          <div
+            className="admin-nav-single d-flex align-items-center"
+            onClick={() => {
+              this.componentChange("addReservations");
+              this.handleBurgerClick();
+            }}
+          >
+            <span>Dodaj rezerwacje</span>
+            <div className="admin-nav-icon" />
           </div>
-          <div className="admin-nav-single d-flex align-items-center" onClick={()=> {this.componentChange("opinions"); this.handleBurgerClick()}}>
-            <span>Przegląd Opinii</span><div className="admin-nav-icon"></div>
+          <div
+            className="admin-nav-single d-flex align-items-center"
+            onClick={() => {
+              this.componentChange("opinions");
+              this.handleBurgerClick();
+            }}
+          >
+            <span>Przegląd Opinii</span>
+            <div className="admin-nav-icon" />
           </div>
-          <div className="admin-nav-single d-flex align-items-center"  onClick={()=> {this.componentChange("reservations"); this.handleBurgerClick()}}>
-            <span>Przegląd rezerwacji</span><div className="admin-nav-icon"></div>
+          <div
+            className="admin-nav-single d-flex align-items-center"
+            onClick={() => {
+              this.componentChange("reservations");
+              this.handleBurgerClick();
+            }}
+          >
+            <span>Przegląd rezerwacji</span>
+            <div className="admin-nav-icon" />
           </div>
-          <div className="admin-nav-single d-flex align-items-center" onClick={()=> {this.componentChange("rooms"); this.handleBurgerClick()}}>
-            <span>Przegląd pokoi</span><div className="admin-nav-icon"></div>
+          <div
+            className="admin-nav-single d-flex align-items-center"
+            onClick={() => {
+              this.componentChange("rooms");
+              this.handleBurgerClick();
+            }}
+          >
+            <span>Przegląd pokoi</span>
+            <div className="admin-nav-icon" />
           </div>
-          <div className="admin-nav-single admin-nav-single-logout d-flex align-items-center" onClick={this._handleLogout}>
-            <span>LOGOUT</span><div className="admin-nav-icon admin-nav-icon-logout"></div>
+          <div
+            className="admin-nav-single admin-nav-single-logout d-flex align-items-center"
+            onClick={this._handleLogout}
+          >
+            <span>LOGOUT</span>
+            <div className="admin-nav-icon admin-nav-icon-logout" />
           </div>
         </nav>
         <div className="d-flex flex-column align-items-center container">
-          <div className="r"/>
+          <div className="r" />
           {this.componentRender()}
         </div>
       </div>
-
     );
   }
 }

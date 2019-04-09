@@ -81,7 +81,7 @@ app.post("/login", async (req, res, next) => {
       if (error) return next(error);
       const body = { _id: user.id, name: user.name };
       const token = jwt.sign({ nick: body.name }, "top_secret", {
-        expiresIn: 600
+        expiresIn: 1200
       });
       return res.json({
         sucess: true,
@@ -106,18 +106,19 @@ app.post("/send", (req, res) => {
   const output = `
   Dzień dobry ${req.body[0].name}&nbsp;${req.body[0].surname},<br><br>
   Przed chwilą dokonałeś rezerwacji pokoju w terminie od <b>${req.body[1].dateFrom.slice(0,10)}</b> do <b>${req.body[1].dateTo.slice(0,10)}</b><br>
-  Twój kod rezerwacji to <b>${req.body[1].id}</b><br><br>
+  Twój kod rezerwacji to <b>${req.body[1].id}</b>. Zapisz go, może Ci być jeszcze potrzebny.<br><br>
   W razie jakichkolwiek pytań odpowiedz na tego maila. 
   `;
 
   // setup email data with unicode symbols
   let mailOptions = {
-    from: `<${process.env.MAIL_USER}>`, // sender address
-    to: "wojtekl62699@gmail.com", // list of receivers
+    from: `<${process.env.MAIL_USER}>`,
+    to: `${req.body[0].mail}`, // list of receivers
     subject: "Rezerwacja",
-    text: "Hello world?", // plain text body
     html: output
   };
+
+  console.log(mailOptions)
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {

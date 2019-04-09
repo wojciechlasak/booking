@@ -9,5 +9,6 @@
 
 #client{
     background: url("../img/low_contrast_linen.png"); /* Background pattern from Toptal Subtle Patterns */
+    width:100%;
 }
 
