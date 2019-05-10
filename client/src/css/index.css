@@ -33,6 +33,11 @@ code {
   height: 3em;
 }
 
+.r3-1{
+  clear: both;
+  height: 1em;
+}
+
 @media (max-width: 768px) {
   .r-768 {
     clear: both;

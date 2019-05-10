@@ -5,6 +5,8 @@ import ClientForm from "./ClientForm.js";
 import ClientSelect from "./ClientSelect.js";
 import RoomMap from "./RoomMap.js";
 import CheckCode from "./CheckCode.js";
+import EndReservation from "./EndReservation.js";
+
 
 import "./css/Client.css";
 
@@ -26,6 +28,7 @@ class Client extends React.Component {
       roomsAmount: null,
       roomsChosen: null,
       highSeason:null,
+      isEnd:false,
     };
   }
 
@@ -74,12 +77,17 @@ class Client extends React.Component {
   reservationDone = () => {
     this.setState(this.getInitialState(), () => {
       this.topRef.current.scrollIntoView({ behavior: "smooth" });
+      this.setState({
+        isEnd:true,
+      })
+
     });
   };
 
   render() {
     return (
       <div id="client" ref={this.topRef}>
+        {this.props.isAdmin?null:<EndReservation isEnd={this.state.isEnd}/>}
         {this.props.isAdmin?null:<CheckCode/>}
         <div id="top">
           <div className="container">
@@ -122,6 +130,7 @@ class Client extends React.Component {
               dateFrom={this.state.from}
               dateTo={this.state.to}
               highSeason={this.state.highSeason}
+              isAdmin={this.props.isAdmin}
               callback={this.reservationDone}
             />
             <div className="r" />

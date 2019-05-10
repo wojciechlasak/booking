@@ -8,8 +8,7 @@ const jwtMW = exjwt({
   secret: "top_secret"
 });
 
-/* GET users listing. */
-
+/* GET */
 router.get("/",jwtMW, function(req, res) {
   con.query("SELECT * FROM client", function(error, results, fields) {
     if (error)  res.send(error);

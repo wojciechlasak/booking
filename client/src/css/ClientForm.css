@@ -1,10 +1,23 @@
 .reservation-summary-conatiner{
   background-color:#313131;
   color:#fff;
+  border: 1px solid #dbb56d
 }
 
-.form-error{
-  color:rgb(255, 0, 0);
+.reservation-summary-title{
+  font-weight: 600;
   font-size:1.29em;
-  
+  text-transform: uppercase;
+}
+
+
+
+.form-error{
+  padding:0.25em;
+  margin-top:0.25em;
+  border-radius:5px;
+  background-color:#313131;
+  color:rgb(209, 83, 83);
+  font-size:1.29em;
+  text-align:center;
 }

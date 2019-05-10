@@ -172,7 +172,7 @@ class RoomMap extends React.Component {
                 </div>
               </button>
             </div>
-            cena za pokój {this.state.highSeason?room.priceHigh:room.price} zł<br/><br/>
+            cena za pokój za noc {this.state.highSeason?room.priceHigh:room.price} zł<br/><br/>
             {" " + room.description}
           </div>
           <div className="opinions-container">{this.renderOpinion()}</div>

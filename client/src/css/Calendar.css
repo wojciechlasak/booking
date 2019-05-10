@@ -1,6 +1,5 @@
 .calendar-container {
   display: inline-block;
-
 }
 
 .client {
@@ -118,22 +117,21 @@
 }
 
 .admin
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after{
-  content:"zajete";
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after {
+  content: "Pokój zajęty";
   position: absolute;
-padding:0.5em;
-top:50%;
-left:50%;
-color:#4c3b2d;
-background-color: #e7e1da;
-opacity:0;
-transition:0.3s;
-z-index:2;
+  padding: 0.5em;
+  width:8em;
+  top: 50%;
+  left: 50%;
+  color: #4c3b2d;
+  background-color: #e7e1da;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 2;
 }
 
 .admin
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after  {
-
-opacity:1;
-
-  }
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)::after {
+  opacity: 1;
+}

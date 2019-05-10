@@ -110,6 +110,8 @@ app.post("/send", (req, res) => {
   W razie jakichkolwiek pytań odpowiedz na tego maila. 
   `;
 
+  
+
   // setup email data with unicode symbols
   let mailOptions = {
     from: `<${process.env.MAIL_USER}>`,
@@ -117,8 +119,6 @@ app.post("/send", (req, res) => {
     subject: "Rezerwacja",
     html: output
   };
-
-  console.log(mailOptions)
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, (error, info) => {

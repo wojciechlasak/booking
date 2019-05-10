@@ -21,12 +21,14 @@ class CheckCode extends React.Component {
 
   generateInfo(){
     var arr = [];
-    arr.push(<div key="0">ID: {this.state.reservation[0].reservation_id}<br/>
-      Od {this.state.reservation[0].dateFrom.slice(0,10)} - {this.state.reservation[0].dateTo.slice(0,10)}<br/>
-      Do zapłacenia {this.state.reservation[0].price}</div>)
+    arr.push(<div key="0">Kod Twojej rezerwacji to: <b>{this.state.reservation[0].reservation_id}</b><br/>
+      W terminie od {this.state.reservation[0].dateFrom.slice(0,10)} do {this.state.reservation[0].dateTo.slice(0,10)}<br/>
+      Całkowity koszt pobytu {this.state.reservation[0].price} zł<br/></div>)
+    arr.push("Numery pokoju/pokoi: ")
     for(let singleReservation of this.state.reservation){
-        arr.push(<div>{singleReservation.room_nr}</div>)
+        arr.push(<span>{singleReservation.room_nr} </span>)
       }
+    
     return arr;
   }
 
@@ -95,9 +97,9 @@ class CheckCode extends React.Component {
           <span>Sprawdź rezerwację</span>
           <div className="code-nav-icon" />
       </div>
-      <div id="reservation-lightbox-container" className={this.state.isOpen?"opened":" "}>
-        <div id="reservation-lightbox-bg" onClick={this.closeLightbox}/>
-        <div id="reservation-lightbox-in">
+      <div className={`lightbox-container ${this.state.isOpen?"opened":" "}`}>
+        <div className="lightbox-bg" onClick={this.closeLightbox}/>
+        <div className="lightbox-in">
         {!this.state.isCorrectCode?<Form method="post" className="Login" onSubmit={this.handleSubmit}>
             <FormGroup>
               <Input
@@ -110,9 +112,9 @@ class CheckCode extends React.Component {
               />
             </FormGroup>
             <Button onClick={this.handleSubmit}>Sprawdź</Button>
-            {this.state.error?<div className="form-error">{this.state.error}</div>:null}
+            {this.state.error?<div className="form-error-code">{this.state.error}</div>:null}
           </Form>:<div>{this.generateInfo()}</div>}
-          <svg id="reservation-lightbox-close" onClick={this.closeLightbox} viewBox="0 0 100 100">
+          <svg className="lightbox-close" onClick={this.closeLightbox} viewBox="0 0 100 100">
             <path d="M10 10L90 90" />
             <path d="M90 10L10 90" />
           </svg>

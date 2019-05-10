@@ -148,12 +148,15 @@ class ClientSelect extends React.Component {
 
   roomConfig(rooms) {
     var arr = [];
+    console.log("pokoje",rooms)
     for (let room in rooms) {
-      let temp = 0;
+      console.log("pokoj",room)
+      let tempAmount = 0;
       for (let i = 0; i <= room; i++) {
-        temp += rooms[i];
+        console.log("pokoj i",rooms[i])
+        tempAmount += rooms[i];
       }
-      if (temp >= this.state.peopleAmount) {
+      if (tempAmount >= this.state.peopleAmount) {
         arr.push(Number(room) + 1);
       }
     }
@@ -250,7 +253,7 @@ class ClientSelect extends React.Component {
           onMouseLeave={this.handleRoomMouseLeave}
           className=" sm-ml-3 col-sm-4 d-flex flex-column"
         >
-          <div className="client-select-title">Ilość osób:</div>
+          <div className="client-select-title">Ilość pokoi:</div>
           <div
             onClick={this.handleRoomClick}
             className="client-select-room d-flex flex-row flex-wrap justify-content-start pl-2 pt-2"

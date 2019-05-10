@@ -26,27 +26,6 @@ class Clients extends React.Component {
 
   }
 
-  updateKlient = () => {
-    var data = {
-      name: "Wojtek",
-      surname: "Lasak",
-      mail: "wojciechlasak@gmail.com",
-      phone: "877622918"
-    };
-
-    this.Auth.fetch("/clients/1", {
-      method: "PATCH",
-      body: JSON.stringify(data)
-    })
-      .then(function() {
-        console.log("success");
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-    this.componentDidMount();
-  }
-
   render() {
     return (
       <div className="container d-flex justify-content-center align-items-center">

@@ -93,7 +93,7 @@ class Admin extends React.Component {
           className={this.state.burgerClick ? "nav-show" : ""}
         >
           <div
-            className="admin-nav-single d-flex align-items-center"
+            className="admin-nav-single d-flex align-items-center justify-content-between"
             onClick={() => {
               this.componentChange("clients");
               this.handleBurgerClick();
@@ -103,7 +103,7 @@ class Admin extends React.Component {
             <div className="admin-nav-icon" />
           </div>
           <div
-            className="admin-nav-single d-flex align-items-center"
+            className="admin-nav-single d-flex align-items-center justify-content-between"
             onClick={() => {
               this.componentChange("addReservations");
               this.handleBurgerClick();
@@ -113,7 +113,7 @@ class Admin extends React.Component {
             <div className="admin-nav-icon" />
           </div>
           <div
-            className="admin-nav-single d-flex align-items-center"
+            className="admin-nav-single d-flex align-items-center justify-content-between"
             onClick={() => {
               this.componentChange("opinions");
               this.handleBurgerClick();
@@ -123,7 +123,7 @@ class Admin extends React.Component {
             <div className="admin-nav-icon" />
           </div>
           <div
-            className="admin-nav-single d-flex align-items-center"
+            className="admin-nav-single d-flex align-items-center justify-content-between"
             onClick={() => {
               this.componentChange("reservations");
               this.handleBurgerClick();
@@ -133,7 +133,7 @@ class Admin extends React.Component {
             <div className="admin-nav-icon" />
           </div>
           <div
-            className="admin-nav-single d-flex align-items-center"
+            className="admin-nav-single d-flex align-items-center justify-content-between"
             onClick={() => {
               this.componentChange("rooms");
               this.handleBurgerClick();
@@ -143,7 +143,7 @@ class Admin extends React.Component {
             <div className="admin-nav-icon" />
           </div>
           <div
-            className="admin-nav-single admin-nav-single-logout d-flex align-items-center"
+            className="admin-nav-single admin-nav-single-logout d-flex align-items-center justify-content-between"
             onClick={this._handleLogout}
           >
             <span>LOGOUT</span>
