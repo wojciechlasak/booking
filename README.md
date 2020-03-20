@@ -8,11 +8,11 @@ I used passport.js, nodemailer, jwt.
 
 ## Setup
 
-To run this project, install it locally using npm:
+To run this project, install it locally using npm:<br /><br />
 
-$ npm install
-$ cd ./client
-$ npm run build
-$ cd ..
-$ npm start
+$ npm install <br />
+$ cd ./client <br />
+$ npm run build <br />
+$ cd .. <br />
+$ npm start <br />
 
